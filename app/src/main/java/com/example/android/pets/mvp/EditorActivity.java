@@ -15,9 +15,10 @@
  */
 package com.example.android.pets.mvp;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -31,7 +32,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.android.pets.Data.PetDbHelper;
+import com.example.android.pets.Data.PetProvider;
 import com.example.android.pets.Data.PetsContract;
 import com.example.android.pets.Data.PetsContract.PetEntry;
 import com.example.android.pets.R;
@@ -100,7 +101,7 @@ public class EditorActivity extends AppCompatActivity {
                     } else if (selection.equals(getString(R.string.gender_female))) {
                         mGender = PetEntry.GENDER_FEMALE; // Female
                     } else {
-                        mGender = PetEntry.GENDER_UNKOWN; // Unknown
+                        mGender = PetEntry.GENDER_UNKNOWN; // Unknown
                     }
                 }
             }
@@ -146,39 +147,35 @@ public class EditorActivity extends AppCompatActivity {
 
     private void insertPet() {
 
+
         String name = mNameEditText.getText().toString(), breed = mBreedEditText.getText().toString();
         String weight_string = mWeightEditText.getText().toString();
         int weight = 0;
         if(!weight_string.isEmpty()){
          weight = Integer.parseInt(weight_string);
         }
-        long insertion_result = 0;
-        PetDbHelper mDbHelper = new PetDbHelper(this);
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(PetsContract.PetEntry.COLUMN_PET_NAME, name );
         contentValues.put(PetsContract.PetEntry.COLUMN_PET_BREED, breed);
         contentValues.put(PetsContract.PetEntry.COLUMN_PET_GENDER, mGender);
         contentValues.put(PetsContract.PetEntry.COLUMN_PET_WEIGHT, weight);
 
-        try {
-            if(name!=null&&breed!=null&& weight!=0 &&mGender!=0 ){
-            insertion_result = db.insert(PetsContract.PetEntry.TABLE_NAME, null, contentValues);}
-            else {
-                insertion_result = -1;
+
+            if(name!=null&&breed!=null&& weight!=0 &&mGender!=0 )
+            {
+
+                Uri result_uri = getApplicationContext().getContentResolver().insert( PetEntry.CONTENT_URI , contentValues);
+                int id = (int)ContentUris.parseId(result_uri);
+                if( !(id == 0)){
+                    Toast.makeText(this, "Inserted pet with id: "+ id , Toast.LENGTH_SHORT).show();
+                    Intent mainscreen = new Intent(this, CatalogActivity.class);
+                    startActivity(mainscreen);
+                }else {
+                    Toast.makeText(this, "Error saving pet id: ", Toast.LENGTH_SHORT).show();
+                }
+
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            db.close();
-            contentValues.clear();
-            if(insertion_result > 0){
-                Toast.makeText(this, "Inserted pet with id: "+ insertion_result, Toast.LENGTH_SHORT).show();
-                Intent mainscreen = new Intent(this, CatalogActivity.class);
-                startActivity(mainscreen);
-            }else if (insertion_result == -1){
-                Toast.makeText(this, "Error saving pet id: "+ insertion_result, Toast.LENGTH_SHORT).show();
-            }
-        }
+
     }
 }

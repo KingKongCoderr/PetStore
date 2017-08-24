@@ -19,6 +19,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +41,6 @@ public class CatalogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
-
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +50,6 @@ public class CatalogActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
       //  displayDatabaseInfo();
     }
 
@@ -67,23 +66,45 @@ public class CatalogActivity extends AppCompatActivity {
     private void displayDatabaseInfo() {
         // To access our database, we instantiate our subclass of SQLiteOpenHelper
         // and pass the context, which is the current activity.
-        PetDbHelper mDbHelper = new PetDbHelper(this);
+        //PetDbHelper mDbHelper = new PetDbHelper(this);
 
         // Create and/or open a database to read from it
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        //SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         // Perform this raw SQL query "SELECT * FROM pets"
         // to get a Cursor that contains all rows from the pets table.
        // Cursor cursor = db.rawQuery("SELECT * FROM " + PetsContract.PetEntry.TABLE_NAME, null);
 
-        Cursor cursor = db.query(PetsContract.PetEntry.TABLE_NAME,null,null,null,null,null,null);
 
+
+       // Cursor cursor = db.query(PetsContract.PetEntry.TABLE_NAME,null,null,null,null,null,null);
+
+        String projection[] = new String[]{
+                PetsContract.PetEntry._ID, PetsContract.PetEntry.COLUMN_PET_NAME, PetsContract.PetEntry.COLUMN_PET_BREED
+                , PetsContract.PetEntry.COLUMN_PET_GENDER, PetsContract.PetEntry.COLUMN_PET_WEIGHT
+        };
+        Uri uri = PetsContract.PetEntry.CONTENT_URI;
+        Cursor cursor = getContentResolver().query(uri,projection,null,null,null);
+        int id_index = cursor.getColumnIndex(PetsContract.PetEntry._ID);
+        int name_index = cursor.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_NAME);
+        int breed_index = cursor.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_BREED);
+        int gender_index = cursor.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_GENDER);
+        int weight_index = cursor.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_WEIGHT);
 
         try {
             // Display the number of rows in the Cursor (which reflects the number of rows in the
             // pets table in the database).
             TextView displayView = (TextView) findViewById(R.id.text_view_pet);
             displayView.setText("Number of rows in pets database table: " + cursor.getCount());
+            displayView.append("\n"+ "_id:  "+"name: "+ "breed: "+"gender: "+"weight: ");
+            while (cursor.moveToNext()){
+                int id =  cursor.getInt(id_index);
+                String name = cursor.getString(name_index);
+                String breed = cursor.getString(breed_index);
+                int gender = cursor.getInt(gender_index);
+                int weight = cursor.getInt(weight_index);
+                displayView.append("\n"+ id +" "+ name +" " +breed+" "+gender+" "+weight+" ");
+            }
         } finally {
             // Always close the cursor when you're done reading from it. This releases all its
             // resources and makes it invalid.
@@ -118,19 +139,17 @@ public class CatalogActivity extends AppCompatActivity {
 
 
     public void insertDummy_data(){
-        PetDbHelper mDbHelper = new PetDbHelper(this);
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(PetsContract.PetEntry.COLUMN_PET_NAME, "TOTO");
         contentValues.put(PetsContract.PetEntry.COLUMN_PET_BREED,"Terrier");
         contentValues.put(PetsContract.PetEntry.COLUMN_PET_GENDER, 1);
         contentValues.put(PetsContract.PetEntry.COLUMN_PET_WEIGHT,7);
         try {
-            db.insert(PetsContract.PetEntry.TABLE_NAME, null, contentValues);
+            getApplicationContext().getContentResolver().insert(PetsContract.PetEntry.CONTENT_URI, contentValues);
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            db.close();
             contentValues.clear();
             displayDatabaseInfo();
         }
