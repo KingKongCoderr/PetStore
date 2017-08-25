@@ -10,19 +10,12 @@ import android.provider.BaseColumns;
 
 public final class PetsContract {
 
-
     public static final String CONTENT_AUTHORITY = "com.example.android.pets";
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_PETS = "pets";
-
-
-
-
     // pets table
-    public static final class PetEntry implements BaseColumns{
-
-        public final static Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI,PATH_PETS);
-
+    public static final class PetEntry implements BaseColumns {
+        public final static Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PETS);
         public static final String TABLE_NAME = "pets";
         public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_PET_NAME = "name";
@@ -56,6 +49,5 @@ public final class PetsContract {
             }
             return false;
         }
-
     }
 }

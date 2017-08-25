@@ -2,24 +2,6 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="/Users/ntankasala/.android/build-cache/c12897e09db263016347e0dba7e59c77804858a8/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.0"
-        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
-        <dex dex="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/pre-dexed/debug/classes_0052d5f3dcee9db596f85d6c604a2ed666bea17c.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/ntankasala/.android/build-cache/b5e22f947462ea8cc543e6a72e8df1b71bbcdcfa/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.0"
-        sha1="df733e6865d662899ec247e8c3dbff3e0961b8a7">
-        <dex dex="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/pre-dexed/debug/classes_0fb14c6d8834bdf02db091af4c4e3140dc2f7f56.jar" />
-    </item>
-    <item
         is-multidex="true"
         jar="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
@@ -29,30 +11,12 @@
         <dex dex="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_3a3f5319aaca8811741dd0727b8fab584d36e9d0/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/ntankasala/.android/build-cache/08bf110247b1d9f600e99aef5c1729ae6516d6c7/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.0"
-        sha1="d30ac0c26495d7264529e333cec806eec64dd6f3">
-        <dex dex="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/pre-dexed/debug/classes_706cbfcc5b44a3ea356ea703989227158e3890f0.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/ntankasala/.android/build-cache/55113e16a7767adee16fb93bca5b4ead864b660d/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.0"
-        sha1="dd2e7a567260ca4e40c09ba330f4f2d318660554">
-        <dex dex="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/pre-dexed/debug/classes_e12f266ccd7952c7dbc2bf85c4cb3ecde829f69a.jar" />
-    </item>
-    <item
         is-multidex="true"
         jar="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.0"
-        sha1="05d0302f4f18fd594a994d8498ec81c1136f0de4">
+        sha1="de804b66d8cb406137e470a649e8b87502ff3d33">
         <dex dex="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_007221285a8f2bdcf7942fc264ceee0d07fdaf34/classes.dex" />
     </item>
 

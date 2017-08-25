@@ -14,13 +14,14 @@
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
+        android:name=".Injection.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".mvp.CatalogActivity"
+            android:name=".mvp.PetCatalog.CatalogActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -28,14 +29,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".mvp.EditorActivity"
+            android:name=".mvp.PetEditor.EditorActivity"
             android:label="@string/editor_activity_title_new_pet"
             android:theme="@style/EditorTheme"
-            android:parentActivityName=".mvp.CatalogActivity" >
+            android:parentActivityName=".mvp.PetCatalog.CatalogActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".mvp.CatalogActivity" />
+                android:value=".mvp.PetCatalog.CatalogActivity" />
         </activity>
 
         <provider

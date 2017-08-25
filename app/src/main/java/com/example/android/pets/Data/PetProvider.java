@@ -18,7 +18,9 @@ import static com.example.android.pets.Data.PetsContract.PetEntry;
 
 public class PetProvider extends ContentProvider {
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     public static final String LOG_TAG = PetProvider.class.getSimpleName();
 
     public PetDbHelper petDbHelper;
@@ -29,17 +31,12 @@ public class PetProvider extends ContentProvider {
     public static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        sUriMatcher.addURI(PetsContract.CONTENT_AUTHORITY, PetsContract.PATH_PETS , PETS);
-        sUriMatcher.addURI(PetsContract.CONTENT_AUTHORITY, PetsContract.PATH_PETS+"/#" , PETS_ID);
+        sUriMatcher.addURI(PetsContract.CONTENT_AUTHORITY, PetsContract.PATH_PETS, PETS);
+        sUriMatcher.addURI(PetsContract.CONTENT_AUTHORITY, PetsContract.PATH_PETS + "/#", PETS_ID);
     }
-
-
 
     @Override
     public boolean onCreate() {
-        // TODO: Create and initialize a PetDbHelper object to gain access to the pets database.
-        // Make sure the variable is a global variable, so it can be referenced from other
-        // ContentProvider methods.
         petDbHelper = new PetDbHelper(getContext());
         return true;
     }
@@ -53,23 +50,12 @@ public class PetProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         switch (match) {
             case PETS:
-                // For the PETS code, query the pets table directly with the given
-                // projection, selection, selection arguments, and sort order. The cursor
-                // could contain multiple rows of the pets table.
-                // TODO: Perform database query on pets table
-                cursor = sqLiteDatabase.query(PetsContract.PetEntry.TABLE_NAME,projection,selection,selection_args,null,null,sort_order);
+                cursor = sqLiteDatabase.query(PetsContract.PetEntry.TABLE_NAME, projection, selection, selection_args, null, null, sort_order);
                 break;
             case PETS_ID:
-                // For the PET_ID code, extract out the ID from the URI.
-                // For an example URI such as "content://com.example.android.pets/pets/3",
-                // the selection will be "_id=?" and the selection argument will be a
-                // String array containing the actual ID of 3 in this case.
-                // For every "?" in the selection, we need to have an element in the selection
-                // arguments that will fill in the "?". Since we have 1 question mark in the
-                // selection, we have 1 String in the selection arguments' String array.
                 selection = PetsContract.PetEntry._ID + "=?";
                 selection_args = new String[]{String.valueOf(PETS_ID)};
-                cursor = sqLiteDatabase.query(PetsContract.PetEntry.TABLE_NAME,projection,selection,selection_args,null,null,sort_order);
+                cursor = sqLiteDatabase.query(PetsContract.PetEntry.TABLE_NAME, projection, selection, selection_args, null, null, sort_order);
                 break;
         }
         return cursor;
@@ -88,14 +74,11 @@ public class PetProvider extends ContentProvider {
             default:
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
-
-
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case PETS:
@@ -108,8 +91,7 @@ public class PetProvider extends ContentProvider {
     private Uri insertPet(Uri uri, ContentValues contentValues) {
         // TODO: Insert a new pet into the pets database table with the given ContentValues
         SQLiteDatabase sqLiteDatabase = petDbHelper.getWritableDatabase();
-
-        long id = sqLiteDatabase.insert(PetsContract.PetEntry.TABLE_NAME,null, contentValues);
+        long id = sqLiteDatabase.insert(PetsContract.PetEntry.TABLE_NAME, null, contentValues);
         // Once we know the ID of the new row in the table,
         // return the new URI with the ID appended to the end of it
         return ContentUris.withAppendedId(uri, id);
@@ -117,10 +99,8 @@ public class PetProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-
         // Get writeable database
         SQLiteDatabase database = petDbHelper.getWritableDatabase();
-
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case PETS:
@@ -134,13 +114,10 @@ public class PetProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
-
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String selection, @Nullable String[] selectionArgs) {
-
-
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case PETS:
@@ -150,18 +127,14 @@ public class PetProvider extends ContentProvider {
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = PetsContract.PetEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updatePet(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
-
     }
 
     private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-
-
-
         // If the {@link PetEntry#COLUMN_PET_NAME} key is present,
         // check that the name value is not null.
         if (values.containsKey(PetEntry.COLUMN_PET_NAME)) {
@@ -196,10 +169,7 @@ public class PetProvider extends ContentProvider {
         if (values.size() == 0) {
             return 0;
         }
-
-
         SQLiteDatabase sqLiteDatabase = petDbHelper.getWritableDatabase();
-
         // Returns the number of database rows affected by the update statement
         return sqLiteDatabase.update(PetEntry.TABLE_NAME, values, selection, selectionArgs);
     }
