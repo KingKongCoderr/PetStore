@@ -1,7 +1,14 @@
 Pets App
 ===================================
 
-This application builds upon the google pets app to facilitate MVP pattern, uses room persistence library instead of normal raw sql.
+This application builds upon the google pets app by adding MVP pattern, DI through Dagger 2.0, uses room persistence library instead of normal raw sql.
+
+#### To-Do:
+* ~Raw Sql for storing data~
+* ~Content Provider~
+* ~MVP Pattern~
+* ~Dependency Injection through Dagger~
+* Cursor Loader for Asynchronous UI operation.
 
 
 License
