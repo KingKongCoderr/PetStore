@@ -24,5 +24,6 @@ dependencies {
     compile 'com.android.support:design:26.0.0'
     compile "com.google.dagger:dagger:2.9"
     annotationProcessor "com.google.dagger:dagger-compiler:2.9"
+    compile 'com.android.support:recyclerview-v7:26.0.0'
     provided 'javax.annotation:jsr250-api:1.0'
 }

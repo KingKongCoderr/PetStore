@@ -16,13 +16,17 @@
 package com.example.android.pets.mvp.PetCatalog;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.example.android.pets.Injection.MainApplication;
 import com.example.android.pets.R;
@@ -39,7 +43,13 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     @Inject
     CatalogPresenter catalogPresenter;
 
-    TextView displayView;
+    //RecyclerView recyclerView;
+    ListView listView;
+    View emptyView;
+  //  RecyclerView.LayoutManager layoutManager;
+
+    //PetCursorRecyclerViewAdapter rv_adapter;
+    PetAdapter cursor_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +58,10 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         MainApplication.getApplicationComponent().inject(this);
         catalogPresenter.attachView(this);
         // Setup FAB to open EditorActivity
-        displayView = (TextView) findViewById(R.id.text_view_pet);
+        //recyclerView = findViewById(R.id.catalog_rv);
+        listView = findViewById(R.id.catalog_lv);
+        emptyView = findViewById(R.id.empty_view);
+       // layoutManager = new LinearLayoutManager(getBaseContext());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,8 +75,7 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     @Override
     protected void onStart() {
         super.onStart();
-        displayView.setText("");
-        catalogPresenter.getDataBaseInfo();
+        catalogPresenter.getCatalog();
     }
 
     @Override
@@ -86,7 +98,6 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
-                displayView.setText("");
                 catalogPresenter.insertDummyData();
                 // Do nothing for now
                 return true;
@@ -98,11 +109,11 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         return super.onOptionsItemSelected(item);
     }
 
-
-    /**
+/*
+    *//**
      * Temporary helper method to display information in the onscreen TextView about the state of
      * the pets database.
-     */
+     *//*
     @Override
     public void displayDatabaseInfo(int id, String name, String breed, int gender, int weight) {
         displayView.append("\n" + id + " " + name + " " + breed + " " + gender + " " + weight + " ");
@@ -117,5 +128,26 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     public void displayColumnHeaders(String header) {
         displayView.append(header);
 
+    }*/
+
+    @Override
+    public void showCatalog(Cursor cursor) {
+            //rv_adapter = new PetCursorRecyclerViewAdapter(this,cursor);
+            cursor_adapter = new PetAdapter(this,cursor,0);
+       /* if (recyclerView != null) {
+            recyclerView.setHasFixedSize(true);
+        }*/
+            listView.setAdapter(cursor_adapter);
+            listView.setEmptyView(emptyView);
+
+           /* recyclerView.setAdapter(rv_adapter);
+            recyclerView.setLayoutManager(layoutManager);*/
     }
+
+    @Override
+    public void refreshCatalog(Cursor cursor) {
+           // rv_adapter.refreshCursor(cursor);
+            cursor_adapter.changeCursor(cursor);
+    }
+
 }

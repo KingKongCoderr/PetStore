@@ -42,18 +42,26 @@ public class CatalogPresenter extends BasePresenter<CatalogView> {
             e.printStackTrace();
         } finally {
             contentValues.clear();
-            getDataBaseInfo();
+            getMvpView().refreshCatalog(getDataBaseInfo());
         }
 
     }
 
-    public void getDataBaseInfo() {
+    public void getCatalog(){
+        getMvpView().showCatalog(getDataBaseInfo());
+    }
+
+    public Cursor getDataBaseInfo() {
         String projection[] = new String[]{
                 PetsContract.PetEntry._ID, PetsContract.PetEntry.COLUMN_PET_NAME, PetsContract.PetEntry.COLUMN_PET_BREED
                 , PetsContract.PetEntry.COLUMN_PET_GENDER, PetsContract.PetEntry.COLUMN_PET_WEIGHT
         };
         Uri uri = PetsContract.PetEntry.CONTENT_URI;
         cursor = context.getContentResolver().query(uri, projection, null, null, null);
+        return cursor;
+
+        /*
+        Shows passing a cursor using petentry table constants.
         int id_index = cursor.getColumnIndex(PetsContract.PetEntry._ID);
         int name_index = cursor.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_NAME);
         int breed_index = cursor.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_BREED);
@@ -76,7 +84,8 @@ public class CatalogPresenter extends BasePresenter<CatalogView> {
             // Always close the cursor when you're done reading from it. This releases all its
             // resources and makes it invalid.
             cursor.close();
-        }
+        }*/
 
     }
+
 }
