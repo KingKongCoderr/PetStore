@@ -9,14 +9,7 @@ import com.example.android.pets.mvp.BaseMvp.BaseView;
  */
 
 public interface CatalogView extends BaseView {
-  /*  void displayDatabaseInfo(int id, String name, String breed, int gender, int weight);
-
-    void displayTableCount(String count);
-
-    void displayColumnHeaders(String header);*/
-
     void showCatalog(Cursor cursor);
 
     void refreshCatalog(Cursor cursor);
-
 }

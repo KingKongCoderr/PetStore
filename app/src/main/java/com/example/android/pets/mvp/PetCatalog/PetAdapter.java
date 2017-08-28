@@ -16,6 +16,7 @@ import com.example.android.pets.R;
  */
 
 public class PetAdapter extends CursorAdapter {
+
     public PetAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }

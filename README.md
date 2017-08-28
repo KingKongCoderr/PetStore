@@ -8,7 +8,8 @@ This application builds upon the google pets app by adding MVP pattern, DI throu
 * ~Content Provider~
 * ~MVP Pattern~
 * ~Dependency Injection through Dagger~
-* Cursor Loader for Asynchronous UI operation.
+* ~CursorAdapter handling the parsing and binding cursor data to view.~
+* ~Cursor Loader to enable Asynchronous UI data loading.~
 
 
 License

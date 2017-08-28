@@ -26,7 +26,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.android.pets.Injection.MainApplication;
 import com.example.android.pets.R;
@@ -113,6 +112,7 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
                 String selection = (String) parent.getItemAtPosition(position);
                 mGender = editorPresenter.getGender(selection);
             }
+
             // Because AdapterView is an abstract class, onNothingSelected must be defined
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -135,7 +135,6 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
-
                 insertPet();
                 // Do nothing for now
                 return true;
