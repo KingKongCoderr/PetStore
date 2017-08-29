@@ -58,10 +58,12 @@ public class CatalogPresenter extends BasePresenter<CatalogView> implements Load
             e.printStackTrace();
         } finally {
             contentValues.clear();
-            catalogLoaderMgr.restartLoader( CATALOG_LOADER_CONTENTPROVIDER,null,this);
+            /* use the below line or set Notification URI on the cursor object in the content provider and call
+            Content resolver.notifychange in CRUD callback methods*/
+
+           // catalogLoaderMgr.restartLoader( CATALOG_LOADER_CONTENTPROVIDER,null,this);
             //getMvpView().refreshCatalog(getDataBaseInfo());
         }
-
     }
 
    /* public void getCatalog() {
@@ -103,7 +105,6 @@ public class CatalogPresenter extends BasePresenter<CatalogView> implements Load
      old cursor once we return.)*/
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
         getMvpView().showCatalog(data);
     }
 

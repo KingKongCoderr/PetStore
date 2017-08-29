@@ -58,6 +58,7 @@ public class PetProvider extends ContentProvider {
                 cursor = sqLiteDatabase.query(PetsContract.PetEntry.TABLE_NAME, projection, selection, selection_args, null, null, sort_order);
                 break;
         }
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 
@@ -92,6 +93,9 @@ public class PetProvider extends ContentProvider {
         // TODO: Insert a new pet into the pets database table with the given ContentValues
         SQLiteDatabase sqLiteDatabase = petDbHelper.getWritableDatabase();
         long id = sqLiteDatabase.insert(PetsContract.PetEntry.TABLE_NAME, null, contentValues);
+
+        getContext().getContentResolver().notifyChange(uri, null);
+
         // Once we know the ID of the new row in the table,
         // return the new URI with the ID appended to the end of it
         return ContentUris.withAppendedId(uri, id);
@@ -102,36 +106,50 @@ public class PetProvider extends ContentProvider {
         // Get writeable database
         SQLiteDatabase database = petDbHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
+        int delete_code = 0;
         switch (match) {
             case PETS:
                 // Delete all rows that match the selection and selection args
-                return database.delete(PetEntry.TABLE_NAME, selection, selectionArgs);
+                delete_code = database.delete(PetEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case PETS_ID:
                 // Delete a single row given by the ID in the URI
                 selection = PetEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return database.delete(PetEntry.TABLE_NAME, selection, selectionArgs);
+                delete_code = database.delete(PetEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
+        if (delete_code != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return delete_code;
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String selection, @Nullable String[] selectionArgs) {
         final int match = sUriMatcher.match(uri);
+        int update_code = 0;
         switch (match) {
             case PETS:
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                update_code = updatePet(uri, contentValues, selection, selectionArgs);
+                break;
             case PETS_ID:
                 // For the PET_ID code, extract out the ID from the URI,
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = PetsContract.PetEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                update_code = updatePet(uri, contentValues, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
+        if (update_code != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return update_code;
     }
 
     private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {

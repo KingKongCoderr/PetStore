@@ -50,7 +50,6 @@ public class EditorPresenter extends BasePresenter<EditorView> {
     }
 
     public void insertPet(String name, String breed, String weight_string, int mGender) {
-
         int weight = 0;
         if (!weight_string.isEmpty()) {
             weight = Integer.parseInt(weight_string);
