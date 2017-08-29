@@ -65,7 +65,7 @@ public class EditorPresenter extends BasePresenter<EditorView> {
             if (!(id == 0)) {
                 Toast.makeText(context, "Inserted pet with id: " + id, Toast.LENGTH_SHORT).show();
                 Intent mainscreen = new Intent(context, CatalogActivity.class);
-                mainscreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mainscreen.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(mainscreen);
             } else {
                 Toast.makeText(context, "Error saving pet id: ", Toast.LENGTH_SHORT).show();

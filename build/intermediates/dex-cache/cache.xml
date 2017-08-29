@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_3a3f5319aaca8811741dd0727b8fab584d36e9d0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="d3c4c99619aa939a9c17919c0a90dafd1e605104">
+        <dex dex="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_007221285a8f2bdcf7942fc264ceee0d07fdaf34/classes.dex" />
+    </item>
+
+</items>
