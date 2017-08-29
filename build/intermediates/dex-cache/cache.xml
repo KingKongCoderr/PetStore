@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="D:\Android_projects\pets\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.0"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_3a3f5319aaca8811741dd0727b8fab584d36e9d0/classes.dex" />
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_72ce2b707d5446d484b5cdbaf4f4fbb5d2f17c47\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="D:\Android_projects\pets\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.0"
-        sha1="de804b66d8cb406137e470a649e8b87502ff3d33">
-        <dex dex="/Users/ntankasala/Documents/android_projects/pets/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_007221285a8f2bdcf7942fc264ceee0d07fdaf34/classes.dex" />
+        sha1="ed27f0c71c2313d9d890d38509503fa8374574cb">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_668961edf891b14ac8977dd4f996d253f5a1674c\classes.dex" />
     </item>
 
 </items>
