@@ -33,7 +33,6 @@ import com.example.android.pets.Data.PetsContract;
 import com.example.android.pets.Injection.MainApplication;
 import com.example.android.pets.R;
 import com.example.android.pets.mvp.PetAdd.AddPetActivity;
-import com.example.android.pets.mvp.PetEdit.EditPetActivity;
 
 import javax.inject.Inject;
 
@@ -114,7 +113,7 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
-                // Do nothing for now
+                deleteAllPets();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -138,6 +137,11 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     public void refreshCatalog(Cursor cursor) {
         // rv_adapter.refreshCursor(cursor);
         cursor_adapter.changeCursor(cursor);
+    }
+
+    @Override
+    public void deleteAllPets() {
+        catalogPresenter.deleteAllpets(PetsContract.PetEntry.CONTENT_URI);
     }
 
 }

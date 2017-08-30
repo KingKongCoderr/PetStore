@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -32,6 +33,7 @@ public class AddPetPresenter extends BasePresenter<AddPetView> implements Loader
     private LoaderManager addPetLoaderMgr;
     private CursorLoader addPetCursorLoader;
     private Uri petUri;
+    private  Intent mainscreen;
 
     public AddPetPresenter(Context context) {
         this.context = context;
@@ -40,6 +42,8 @@ public class AddPetPresenter extends BasePresenter<AddPetView> implements Loader
     @Override
     public void attachView(AddPetView mvpView) {
         super.attachView(mvpView);
+        mainscreen = new Intent(context, CatalogActivity.class);
+        mainscreen.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     }
 
     @Override
@@ -61,27 +65,46 @@ public class AddPetPresenter extends BasePresenter<AddPetView> implements Loader
         }
     }
 
-    public void insertPet(String name, String breed, String weight_string, int mGender) {
+    public void savePet(String name, String breed, String weight_string, int mGender) {
         int weight = 0;
         if (!weight_string.isEmpty()) {
             weight = Integer.parseInt(weight_string);
         }
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(PetsContract.PetEntry.COLUMN_PET_NAME, name);
-        contentValues.put(PetsContract.PetEntry.COLUMN_PET_BREED, breed);
-        contentValues.put(PetsContract.PetEntry.COLUMN_PET_GENDER, mGender);
-        contentValues.put(PetsContract.PetEntry.COLUMN_PET_WEIGHT, weight);
-        if (name != null && breed != null && weight != 0 && mGender != 0) {
-            Uri result_uri = context.getContentResolver().insert(PetsContract.PetEntry.CONTENT_URI, contentValues);
-            int id = (int) ContentUris.parseId(result_uri);
-            if (!(id == 0)) {
-                Toast.makeText(context, "Inserted pet with id: " + id, Toast.LENGTH_SHORT).show();
-                Intent mainscreen = new Intent(context, CatalogActivity.class);
-                mainscreen.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                context.startActivity(mainscreen);
+        if ( TextUtils.isEmpty(name) == false && mGender != 0) {
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(PetsContract.PetEntry.COLUMN_PET_NAME, name);
+            contentValues.put(PetsContract.PetEntry.COLUMN_PET_BREED, breed);
+            contentValues.put(PetsContract.PetEntry.COLUMN_PET_GENDER, mGender);
+            contentValues.put(PetsContract.PetEntry.COLUMN_PET_WEIGHT, weight);
+            if (petUri != null) {
+                long petId = ContentUris.parseId(petUri);
+                String selection = PetEntry._ID + "=?";
+                String selectionArgs[] = new String[]{String.valueOf(petId)};
+                int updatedColumnNumber = context
+                        .getContentResolver()
+                        .update(petUri,contentValues,selection,selectionArgs);
+                if(updatedColumnNumber == 1){
+                    Toast.makeText(context,"Updated pet with id: " + petId, Toast.LENGTH_SHORT).show();
+                    context.startActivity(mainscreen);
+                }else {
+                    Toast.makeText(context,"error updating pet with id: " + petId, Toast.LENGTH_SHORT).show();
+
+                }
             } else {
-                Toast.makeText(context, "Error saving pet id: ", Toast.LENGTH_SHORT).show();
+                Uri result_uri = context
+                        .getContentResolver()
+                        .insert(PetsContract.PetEntry.CONTENT_URI, contentValues);
+                int id = (int) ContentUris.parseId(result_uri);
+                if (!(id == 0)) {
+                    Toast.makeText(context, "Inserted pet with id: " + id, Toast.LENGTH_SHORT).show();
+                    context.startActivity(mainscreen);
+                } else {
+                    Toast.makeText(context, "Error saving pet id: ", Toast.LENGTH_SHORT).show();
+                }
             }
+        }else {
+            getMvpView().showInputErrorMessage(R.id.addpet_container,R.string.input_fields_empty_error_message , Snackbar.LENGTH_INDEFINITE );
         }
 
     }
@@ -90,11 +113,32 @@ public class AddPetPresenter extends BasePresenter<AddPetView> implements Loader
     public void setUpLoader(LoaderManager loaderManager, Uri contentUris) {
 
         if (contentUris != null) {
+            getMvpView().setActivityTitle(R.string.editor_activity_title_edit_pet);
             petUri = contentUris;
             addPetLoaderMgr = loaderManager;
             addPetLoaderMgr.initLoader(ADDPET_LOADER_CONTENTPROVIDER, null, this);
+        } else {
+            petUri = null;
+            getMvpView().setActivityTitle(R.string.editor_activity_title_new_pet);
         }
 
+
+    }
+
+    public void deletePet(Uri contenUri){
+        if(contenUri != null){
+            String selection = PetEntry._ID +"=?";
+            long id = ContentUris.parseId(contenUri);
+            String selectionArgs[] = new String[]{String.valueOf(id)};
+            int deletedColumns = context.getContentResolver().delete(contenUri,selection,selectionArgs);
+            if (deletedColumns > 0 ){
+                Toast.makeText(context, "Deleted pet with id:" + id, Toast.LENGTH_SHORT).show();
+                context.startActivity(mainscreen);
+            }
+            else{
+                Toast.makeText(context, "Error deleting pet", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -122,8 +166,7 @@ public class AddPetPresenter extends BasePresenter<AddPetView> implements Loader
             String breed = data.getString(breedColumnIndex);
             int gender = data.getInt(genderColumnIndex);
             int weight = data.getInt(weightColumnIndex);
-
-            getMvpView().populatePet(name,breed, gender,weight);
+            getMvpView().populatePet(name, breed, gender, weight);
 
         }
 
@@ -134,7 +177,7 @@ public class AddPetPresenter extends BasePresenter<AddPetView> implements Loader
     public void onLoaderReset(Loader<Cursor> loader) {
 
         // If the loader is invalidated, clear out all the data from the input fields.
-        getMvpView().populatePet("","",0,0);
+        getMvpView().populatePet("", "", 0, 0);
     }
 
     private CursorLoader loader_contentProvider() {

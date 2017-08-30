@@ -2,6 +2,7 @@ package com.example.android.pets.mvp.PetCatalog;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,10 @@ public class PetAdapter extends CursorAdapter {
         int breed_index = cursor.getColumnIndexOrThrow(PetsContract.PetEntry.COLUMN_PET_BREED);
         PetCursorRecyclerViewAdapter.ViewHolder vh = new PetCursorRecyclerViewAdapter.ViewHolder(view.getRootView());
         name_tv.setText(cursor.getString(name_index));
-        breed_tv.setText(cursor.getString(breed_index));
+        String breed = cursor.getString(breed_index);
+        if(TextUtils.isEmpty(breed)){
+            breed = "Unknown Breed";
+        }
+        breed_tv.setText(breed);
     }
 }

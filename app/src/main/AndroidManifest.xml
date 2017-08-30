@@ -32,7 +32,6 @@
         </activity>
         <activity
             android:name=".mvp.PetAdd.AddPetActivity"
-            android:label="@string/editor_activity_title_new_pet"
             android:parentActivityName=".mvp.PetCatalog.CatalogActivity"
             android:taskAffinity=""
             android:theme="@style/EditorTheme">
@@ -43,7 +42,6 @@
                 android:value=".mvp.PetCatalog.CatalogActivity" />
         </activity>
         <activity android:name=".mvp.PetEdit.EditPetActivity"
-            android:label="Edit a Pet"
             android:parentActivityName=".mvp.PetCatalog.CatalogActivity"
             android:taskAffinity=""
             android:theme="@style/EditorTheme">

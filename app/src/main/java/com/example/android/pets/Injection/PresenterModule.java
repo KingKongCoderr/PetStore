@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.example.android.pets.mvp.PetAdd.AddPetPresenter;
 import com.example.android.pets.mvp.PetCatalog.CatalogPresenter;
-import com.example.android.pets.mvp.PetEdit.EditPetPresenter;
 
 import dagger.Provides;
 
@@ -29,8 +28,6 @@ public class PresenterModule {
         return new AddPetPresenter(context);
     }
 
-    @Provides
-    EditPetPresenter getEditPetPresenter(){ return new EditPetPresenter(context); }
 
     @Provides
     Context getContext() {

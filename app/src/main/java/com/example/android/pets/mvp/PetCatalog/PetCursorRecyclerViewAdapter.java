@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.example.android.pets.Data.PetsContract;
 import com.example.android.pets.R;
 
-import static com.example.android.pets.R.id.breed_tv;
-import static com.example.android.pets.R.id.name_tv;
 
 
 /**
@@ -81,4 +79,6 @@ public class PetCursorRecyclerViewAdapter extends RecyclerView.Adapter<PetCursor
             breed_tv = itemView.findViewById(R.id.breed_tv);
         }
     }
+
+
 }
