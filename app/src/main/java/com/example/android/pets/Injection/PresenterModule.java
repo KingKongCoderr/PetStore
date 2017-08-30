@@ -2,8 +2,9 @@ package com.example.android.pets.Injection;
 
 import android.content.Context;
 
+import com.example.android.pets.mvp.PetAdd.AddPetPresenter;
 import com.example.android.pets.mvp.PetCatalog.CatalogPresenter;
-import com.example.android.pets.mvp.PetEditor.EditorPresenter;
+import com.example.android.pets.mvp.PetEdit.EditPetPresenter;
 
 import dagger.Provides;
 
@@ -24,9 +25,12 @@ public class PresenterModule {
     }
 
     @Provides
-    EditorPresenter getEditorPresenter() {
-        return new EditorPresenter(context);
+    AddPetPresenter getAddPetPresenter() {
+        return new AddPetPresenter(context);
     }
+
+    @Provides
+    EditPetPresenter getEditPetPresenter(){ return new EditPetPresenter(context); }
 
     @Provides
     Context getContext() {

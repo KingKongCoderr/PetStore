@@ -15,8 +15,10 @@
  */
 package com.example.android.pets.mvp.PetCatalog;
 
+import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -24,11 +26,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.android.pets.Data.PetsContract;
 import com.example.android.pets.Injection.MainApplication;
 import com.example.android.pets.R;
-import com.example.android.pets.mvp.PetEditor.EditorActivity;
+import com.example.android.pets.mvp.PetAdd.AddPetActivity;
+import com.example.android.pets.mvp.PetEdit.EditPetActivity;
 
 import javax.inject.Inject;
 
@@ -54,7 +59,7 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         MainApplication.getApplicationComponent().inject(this);
         catalogPresenter.attachView(this);
         catalogPresenter.setUpLoader(getSupportLoaderManager());
-        // Setup FAB to open EditorActivity
+        // Setup FAB to open AddPetActivity
         //recyclerView = findViewById(R.id.catalog_rv);
         listView = findViewById(R.id.catalog_lv);
         emptyView = findViewById(R.id.empty_view);
@@ -63,8 +68,17 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+                Intent intent = new Intent(CatalogActivity.this, AddPetActivity.class);
                 startActivity(intent);
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent addPetIntent = new Intent(CatalogActivity.this, AddPetActivity.class);
+                Uri content_uri = ContentUris.withAppendedId(PetsContract.PetEntry.CONTENT_URI,id);
+                addPetIntent.setData(content_uri);
+                startActivity(addPetIntent);
             }
         });
     }

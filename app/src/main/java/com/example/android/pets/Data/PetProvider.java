@@ -54,7 +54,7 @@ public class PetProvider extends ContentProvider {
                 break;
             case PETS_ID:
                 selection = PetsContract.PetEntry._ID + "=?";
-                selection_args = new String[]{String.valueOf(PETS_ID)};
+                selection_args = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = sqLiteDatabase.query(PetsContract.PetEntry.TABLE_NAME, projection, selection, selection_args, null, null, sort_order);
                 break;
         }

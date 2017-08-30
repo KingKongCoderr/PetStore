@@ -117,4 +117,5 @@ public class CatalogPresenter extends BasePresenter<CatalogView> implements Load
         // old cursor data is removed so that new cursor data can be inserted
         getMvpView().refreshCatalog(null);
     }
+
 }
