@@ -15,8 +15,10 @@
  */
 package com.example.android.pets.mvp.PetCatalog;
 
+import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -24,11 +26,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.android.pets.Data.PetsContract;
 import com.example.android.pets.Injection.MainApplication;
 import com.example.android.pets.R;
-import com.example.android.pets.mvp.PetEditor.EditorActivity;
+import com.example.android.pets.mvp.PetAdd.AddPetActivity;
 
 import javax.inject.Inject;
 
@@ -54,7 +58,7 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         MainApplication.getApplicationComponent().inject(this);
         catalogPresenter.attachView(this);
         catalogPresenter.setUpLoader(getSupportLoaderManager());
-        // Setup FAB to open EditorActivity
+        // Setup FAB to open AddPetActivity
         //recyclerView = findViewById(R.id.catalog_rv);
         listView = findViewById(R.id.catalog_lv);
         emptyView = findViewById(R.id.empty_view);
@@ -63,8 +67,17 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+                Intent intent = new Intent(CatalogActivity.this, AddPetActivity.class);
                 startActivity(intent);
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent addPetIntent = new Intent(CatalogActivity.this, AddPetActivity.class);
+                Uri content_uri = ContentUris.withAppendedId(PetsContract.PetEntry.CONTENT_URI,id);
+                addPetIntent.setData(content_uri);
+                startActivity(addPetIntent);
             }
         });
     }
@@ -100,7 +113,7 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
-                // Do nothing for now
+                deleteAllPets();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -124,6 +137,11 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     public void refreshCatalog(Cursor cursor) {
         // rv_adapter.refreshCursor(cursor);
         cursor_adapter.changeCursor(cursor);
+    }
+
+    @Override
+    public void deleteAllPets() {
+        catalogPresenter.deleteAllpets(PetsContract.PetEntry.CONTENT_URI);
     }
 
 }

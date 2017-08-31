@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.widget.Toast;
 
 import com.example.android.pets.Data.PetsContract;
 import com.example.android.pets.mvp.BaseMvp.BasePresenter;
@@ -58,10 +59,12 @@ public class CatalogPresenter extends BasePresenter<CatalogView> implements Load
             e.printStackTrace();
         } finally {
             contentValues.clear();
-            catalogLoaderMgr.restartLoader( CATALOG_LOADER_CONTENTPROVIDER,null,this);
+            /* use the below line or set Notification URI on the cursor object in the content provider and call
+            Content resolver.notifychange in CRUD callback methods*/
+
+           // catalogLoaderMgr.restartLoader( CATALOG_LOADER_CONTENTPROVIDER,null,this);
             //getMvpView().refreshCatalog(getDataBaseInfo());
         }
-
     }
 
    /* public void getCatalog() {
@@ -103,7 +106,6 @@ public class CatalogPresenter extends BasePresenter<CatalogView> implements Load
      old cursor once we return.)*/
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
         getMvpView().showCatalog(data);
     }
 
@@ -116,4 +118,13 @@ public class CatalogPresenter extends BasePresenter<CatalogView> implements Load
         // old cursor data is removed so that new cursor data can be inserted
         getMvpView().refreshCatalog(null);
     }
+
+    public void deleteAllpets(Uri tableUri){
+        if(tableUri!=null){
+        int id = context.getContentResolver().delete(tableUri,null,null);
+            Toast.makeText(context, id+" rows deleted", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 }

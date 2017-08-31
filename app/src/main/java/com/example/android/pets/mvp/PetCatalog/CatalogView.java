@@ -12,4 +12,6 @@ public interface CatalogView extends BaseView {
     void showCatalog(Cursor cursor);
 
     void refreshCatalog(Cursor cursor);
+
+    void deleteAllPets();
 }
