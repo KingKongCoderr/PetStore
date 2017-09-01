@@ -15,12 +15,14 @@
  */
 package com.example.android.pets.mvp.PetCatalog;
 
-import android.animation.ObjectAnimator;
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.ContentUris;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -29,10 +31,12 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.BounceInterpolator;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.android.pets.Data.PetsContract;
@@ -53,33 +57,68 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     //RecyclerView recyclerView;
     ListView listView;
     View emptyView;
-    ImageView petImageView;
-    TextView labe1,label2;
+    ImageView petHomeImageView, petImageView;
+    TextView label1,label2;
+    FloatingActionButton fab;
     //RecyclerView.LayoutManager layoutManager;
     //PetCursorRecyclerViewAdapter rv_adapter;
     PetAdapter cursor_adapter;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_catalog);
+        final RelativeLayout mainLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.activity_catalog,null);
+        // set a global layout listener which will be called when the layout pass is completed and the view is drawn
+        mainLayout.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    public void onGlobalLayout() {
+                        //Remove the listener before proceeding
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            mainLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        } else {
+                            mainLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        }
+                        // measure your views here
+                        int labelOnScreenLocation[] = new int[2];
+                        int labelInWindowLocation[] = new int[2];
+                        int imageOnScreenLocation[] = new int[2];
+                        int fabOnScreenLocation[] = new int[2];
+                        petHomeImageView.getLocationOnScreen(imageOnScreenLocation);
+                        fab.getLocationOnScreen(fabOnScreenLocation);
+                        label1.getLocationInWindow(labelInWindowLocation);
+                        label1.getLocationOnScreen(labelOnScreenLocation);
+                        editor.putInt("imagex",imageOnScreenLocation[0]);
+                        editor.putInt("imagey",imageOnScreenLocation[1]);
+                        editor.putInt("fabx",fabOnScreenLocation[0]);
+                        editor.putInt("faby",fabOnScreenLocation[1]);
+                        editor.commit();
+                    }
+                }
+        );
+        setContentView(mainLayout);
         MainApplication.getApplicationComponent().inject(this);
         catalogPresenter.attachView(this, getApplicationContext());
         catalogPresenter.setUpLoader(getSupportLoaderManager());
+
+        sharedPreferences = getPreferences(MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         // Setup FAB to open AddPetActivity
         //recyclerView = findViewById(R.id.catalog_rv);
         listView = findViewById(R.id.catalog_lv);
         emptyView = findViewById(R.id.empty_view);
-        petImageView = findViewById(R.id.empty_shelter_image);
-        labe1 = findViewById(R.id.empty_title_text);
+        petHomeImageView = findViewById(R.id.empty_shelter_image);
+        petImageView = findViewById(R.id.pet_iv);
+        label1 = findViewById(R.id.empty_title_text);
         label2 = findViewById(R.id.empty_subtitle_text);
         // layoutManager = new LinearLayoutManager(getBaseContext());
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CatalogActivity.this, AddPetActivity.class);
-                startActivity(intent);
+                fabAnimation();
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -109,6 +148,51 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
 */
 
     }
+    private void fabAnimation() {
+        petImageView.setVisibility(View.VISIBLE);
+        int fabx = sharedPreferences.getInt("fabx",0)+50, faby = sharedPreferences.getInt("faby",0)-100;
+        int imagex = sharedPreferences.getInt("imagex",0)+50, imagey = sharedPreferences.getInt("imagey",0)-20;
+        ValueAnimator petx = ValueAnimator.ofInt(fabx,imagex);
+        petx.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int value = (int)valueAnimator.getAnimatedValue();
+                petImageView.setTranslationX(value);
+            }
+        });
+        petx.setDuration(3000);
+        ValueAnimator pety = ValueAnimator.ofInt(faby, imagey);
+        pety.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int value = (int)valueAnimator.getAnimatedValue();
+                petImageView.setTranslationY(value);
+            }
+        });
+        pety.setDuration(3000);
+        petx.start();
+        pety.start();
+        pety.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                Intent intent = new Intent(CatalogActivity.this, AddPetActivity.class);
+                startActivity(intent);
+            }
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+
+    }
 
     @Override
     protected void onStart() {
@@ -117,7 +201,6 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     }
 
     public void emptyViewAnimation() {
-
         /*
         using object animator which is subclass of value animator
          */
@@ -131,13 +214,15 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0f, -300);
+
+      //Value Animator has more features than Object Animator
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0f, -380);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 float value = (float)valueAnimator.getAnimatedValue();
-                petImageView.setTranslationY(value);
-                labe1.setTranslationX(value);
+               // petHomeImageView.setTranslationY(value-500);
+                label1.setTranslationX(value);
                 label2.setTranslationX(-value);
             }
         });
@@ -146,8 +231,9 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
        // valueAnimator.setRepeatMode(ValueAnimator.REVERSE);
         valueAnimator.start();
-
     }
+
+
 
     @Override
     protected void onDestroy() {

@@ -83,4 +83,11 @@
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add_pet"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pet_iv"
+        android:src="@drawable/pet"
+        android:visibility="invisible"/>
 </RelativeLayout>
