@@ -17,4 +17,5 @@
         android:id="@+id/breed_tv"
         android:textSize="15sp"
         android:paddingLeft="15sp"/>
+
 </LinearLayout>

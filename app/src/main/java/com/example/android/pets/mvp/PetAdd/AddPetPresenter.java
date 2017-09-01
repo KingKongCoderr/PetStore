@@ -35,13 +35,14 @@ public class AddPetPresenter extends BasePresenter<AddPetView> implements Loader
     private Uri petUri;
     private  Intent mainscreen;
 
-    public AddPetPresenter(Context context) {
-        this.context = context;
+    public AddPetPresenter() {
+
     }
 
     @Override
-    public void attachView(AddPetView mvpView) {
-        super.attachView(mvpView);
+    public void attachView(AddPetView mvpView, Context context) {
+        super.attachView(mvpView, context);
+        this.context = context;
         mainscreen = new Intent(context, CatalogActivity.class);
         mainscreen.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     }

@@ -15,6 +15,8 @@
  */
 package com.example.android.pets.mvp.PetCatalog;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,11 +25,15 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.android.pets.Data.PetsContract;
 import com.example.android.pets.Injection.MainApplication;
@@ -47,6 +53,8 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     //RecyclerView recyclerView;
     ListView listView;
     View emptyView;
+    ImageView petImageView;
+    TextView labe1,label2;
     //RecyclerView.LayoutManager layoutManager;
     //PetCursorRecyclerViewAdapter rv_adapter;
     PetAdapter cursor_adapter;
@@ -56,12 +64,15 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
         MainApplication.getApplicationComponent().inject(this);
-        catalogPresenter.attachView(this);
+        catalogPresenter.attachView(this, getApplicationContext());
         catalogPresenter.setUpLoader(getSupportLoaderManager());
         // Setup FAB to open AddPetActivity
         //recyclerView = findViewById(R.id.catalog_rv);
         listView = findViewById(R.id.catalog_lv);
         emptyView = findViewById(R.id.empty_view);
+        petImageView = findViewById(R.id.empty_shelter_image);
+        labe1 = findViewById(R.id.empty_title_text);
+        label2 = findViewById(R.id.empty_subtitle_text);
         // layoutManager = new LinearLayoutManager(getBaseContext());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -75,17 +86,67 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent addPetIntent = new Intent(CatalogActivity.this, AddPetActivity.class);
-                Uri content_uri = ContentUris.withAppendedId(PetsContract.PetEntry.CONTENT_URI,id);
+                Uri content_uri = ContentUris.withAppendedId(PetsContract.PetEntry.CONTENT_URI, id);
                 addPetIntent.setData(content_uri);
                 startActivity(addPetIntent);
             }
         });
+        if(listView.getCount() == 0){
+            emptyViewAnimation();
+        }
+        emptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emptyViewAnimation();
+            }
+        });
+     /*   emptyView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                emptyViewAnimation();
+            }
+        });
+*/
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         //catalogPresenter.getCatalog();
+    }
+
+    public void emptyViewAnimation() {
+
+        /*
+        using object animator which is subclass of value animator
+         */
+       /* ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(emptyView,"translationY",-400f);
+        objectAnimator.setDuration(5000);
+        objectAnimator.start();
+        objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        objectAnimator.setRepeatMode(ValueAnimator.REVERSE);*/
+
+       DisplayMetrics displayMetrics = new DisplayMetrics();
+       getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0f, -300);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float value = (float)valueAnimator.getAnimatedValue();
+                petImageView.setTranslationY(value);
+                labe1.setTranslationX(value);
+                label2.setTranslationX(-value);
+            }
+        });
+        valueAnimator.setInterpolator(new BounceInterpolator());
+        valueAnimator.setDuration(10000);
+        valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+       // valueAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        valueAnimator.start();
+
     }
 
     @Override

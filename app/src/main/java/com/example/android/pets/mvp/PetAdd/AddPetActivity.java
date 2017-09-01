@@ -89,7 +89,7 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pet);
         MainApplication.getApplicationComponent().inject(this);
-        addPetPresenter.attachView(this);
+        addPetPresenter.attachView(this,getApplicationContext());
 
         // Find all relevant views that we will need to read user input from
         mNameEditText = (EditText) findViewById(R.id.add_pet_name);
