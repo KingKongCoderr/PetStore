@@ -11,11 +11,11 @@
      limitations under the License.
 -->
 <!-- Layout for the list of pets -->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".mvp.PetCatalog.CatalogActivity">
 
     <RelativeLayout
@@ -83,6 +83,13 @@
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add_pet"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fab_lottie"
+        app:lottie_fileName="emoji_reaction.json"
+        />
 
     <ImageView
         android:layout_width="wrap_content"

@@ -121,6 +121,7 @@
     <orderEntry type="library" exported="" name="appcompat-v7-26.0.0" level="project" />
     <orderEntry type="library" exported="" name="jsr250-api-1.0" level="project" />
     <orderEntry type="library" exported="" name="transition-26.0.0" level="project" />
+    <orderEntry type="library" exported="" name="lottie-2.2.0" level="project" />
     <orderEntry type="library" exported="" name="android-android-26" level="project" />
   </component>
 </module>
