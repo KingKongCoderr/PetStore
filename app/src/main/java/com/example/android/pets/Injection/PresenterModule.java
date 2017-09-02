@@ -25,7 +25,7 @@ public class PresenterModule {
 
     @Provides
     AddPetPresenter getAddPetPresenter() {
-        return new AddPetPresenter(context);
+        return new AddPetPresenter();
     }
 
 

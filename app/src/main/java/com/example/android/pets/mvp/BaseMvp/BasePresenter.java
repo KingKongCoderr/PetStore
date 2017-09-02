@@ -1,6 +1,8 @@
 package com.example.android.pets.mvp.BaseMvp;
 
 
+import android.content.Context;
+
 /**
  * Created by ntankasala on 8/24/17.
  */
@@ -10,7 +12,7 @@ public class BasePresenter<T extends BaseView> implements Presenter<T> {
     private T mMvpView;
 
     @Override
-    public void attachView(T mvpView) {
+    public void attachView(T mvpView, Context context) {
         mMvpView = mvpView;
     }
 

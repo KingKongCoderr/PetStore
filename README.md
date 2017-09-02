@@ -10,6 +10,8 @@ This application builds upon the google pets app by adding MVP pattern, DI throu
 * ~Dependency Injection through Dagger~
 * ~CursorAdapter handling the parsing and binding cursor data to view.~
 * ~Cursor Loader to enable Asynchronous UI data loading.~
+* ~Add animations for EmptyView and Fab button.~
+* Group animations using PropertyValuesHolder
 
 
 License

@@ -32,8 +32,8 @@ public class CatalogPresenter extends BasePresenter<CatalogView> implements Load
     }
 
     @Override
-    public void attachView(CatalogView mvpView) {
-        super.attachView(mvpView);
+    public void attachView(CatalogView mvpView, Context context) {
+        super.attachView(mvpView, context);
     }
 
     @Override
