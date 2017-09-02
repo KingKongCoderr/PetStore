@@ -5,14 +5,19 @@ This application builds upon the google pets app by adding MVP pattern, DI throu
 
 #### To-Do:
 * ~Raw Sql for storing data~
-* ~Content Provider~
+* ~Implement Content Provider~
 * ~MVP Pattern~
 * ~Dependency Injection through Dagger~
 * ~CursorAdapter handling the parsing and binding cursor data to view.~
 * ~Cursor Loader to enable Asynchronous UI data loading.~
-* ~Add animations for EmptyView and Fab button.~
+* ~Add animations for EmptyView and Fab button using Value & Object Animators.~
 * Group animations using PropertyValuesHolder
 
+![](https://user-images.githubusercontent.com/10462780/29992989-d9aeb404-8f6e-11e7-838f-33cba288b172.gif) ![](https://user-images.githubusercontent.com/10462780/29992991-ee404388-8f6e-11e7-94e6-5deaa9fcb584.gif)![](https://user-images.githubusercontent.com/10462780/29992993-fb0c0796-8f6e-11e7-9a43-be254ff4e2c6.gif)
+
+![](https://user-images.githubusercontent.com/10462780/29992996-10060a20-8f6f-11e7-926a-e766ce5771f6.gif)![](https://user-images.githubusercontent.com/10462780/29993000-19f82bc6-8f6f-11e7-84a1-d43a7c7a7d1b.gif) ![](https://user-images.githubusercontent.com/10462780/29993002-29b28ff2-8f6f-11e7-9236-6ae5ac318c4c.gif)
+
+![](https://user-images.githubusercontent.com/10462780/29993006-4cfe18c8-8f6f-11e7-900f-c95552923c69.gif) ![](https://user-images.githubusercontent.com/10462780/29993004-3ae58978-8f6f-11e7-93a4-17de35148d33.gif)
 
 License
 -------
