@@ -1,7 +1,7 @@
 Pets App
 ===================================
 
-This application builds upon the google pets app by adding MVP pattern, DI through Dagger 2.0, uses room persistence library instead of normal raw sql.
+An android application enabling a pet shelter to store information about their pets thus creating a pet inventory which can be updated or shared with other parties interested in the data, the base concept of this application can be applied to many other businesses. Project Uses MVP pattern, DI through Dagger 2.0 and other android framework components mentioned in the to do list below.
 
 #### To-Do:
 * ~Raw Sql for storing data~
@@ -12,6 +12,7 @@ This application builds upon the google pets app by adding MVP pattern, DI throu
 * ~Cursor Loader to enable Asynchronous UI data loading.~
 * ~Add animations for EmptyView and Fab button using Value & Object Animators.~
 * Group animations using PropertyValuesHolder
+* Espresso Instrumentation test
 
 ![](https://user-images.githubusercontent.com/10462780/29992989-d9aeb404-8f6e-11e7-838f-33cba288b172.gif) ![](https://user-images.githubusercontent.com/10462780/29992991-ee404388-8f6e-11e7-94e6-5deaa9fcb584.gif)![](https://user-images.githubusercontent.com/10462780/29992993-fb0c0796-8f6e-11e7-9a43-be254ff4e2c6.gif) ![](https://user-images.githubusercontent.com/10462780/29993000-19f82bc6-8f6f-11e7-84a1-d43a7c7a7d1b.gif)
 
