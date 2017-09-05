@@ -10,6 +10,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         release {
@@ -30,4 +31,10 @@ dependencies {
 
     //Lotte Animation Library
     compile 'com.airbnb.android:lottie:2.2.0'
+
+    //Android Testing Support library(ATSL) dependencies.
+    androidTestCompile 'com.android.support:support-annotations:26.0.0'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
+
 }

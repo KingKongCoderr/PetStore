@@ -2,12 +2,15 @@ package com.example.android.pets.mvp.PetCatalog;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.widget.Toast;
 
 import com.example.android.pets.Data.PetsContract;
@@ -41,6 +44,13 @@ public class CatalogPresenter extends BasePresenter<CatalogView> implements Load
         super.detachView();
     }
 
+    public boolean isLandscape(){
+        if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+         return true;
+        }else {
+            return false;
+        }
+    }
 
     public void setUpLoader(LoaderManager loaderManager) {
         catalogLoaderMgr = loaderManager;

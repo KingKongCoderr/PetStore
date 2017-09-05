@@ -23,6 +23,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -42,39 +43,45 @@ import javax.inject.Inject;
 /**
  * Allows user to create a new pet or edit an existing one.
  */
-public class AddPetActivity extends AppCompatActivity implements AddPetView{
-
+public class AddPetActivity extends AppCompatActivity implements AddPetView {
+    
     @Inject
     AddPetPresenter addPetPresenter;
-
+    
     /**
      * EditText field to enter the pet's name
      */
     private EditText mNameEditText;
-
+    
     /**
      * EditText field to enter the pet's breed
      */
     private EditText mBreedEditText;
-
+    
     /**
      * EditText field to enter the pet's weight
      */
     private EditText mWeightEditText;
-
+    
     /**
      * EditText field to enter the pet's gender
      */
     private Spinner mGenderSpinner;
-
+    
     /**
      * Gender of the pet. The possible values are:
      * 0 for unknown gender, 1 for male, 2 for female.
      */
     private int mGender = 0;
-
+    
     private boolean mPetHasChanged = false;
-
+    
+    public boolean ismPetHasChanged() {
+        return mPetHasChanged;
+    }
+    
+    private static String TAG = "AddPetActivity";
+    
     Uri content_uri;
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -83,20 +90,22 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
             return false;
         }
     };
-
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pet);
         MainApplication.getApplicationComponent().inject(this);
-        addPetPresenter.attachView(this,getApplicationContext());
-
+        Log.d(TAG, "on Create");
+        addPetPresenter.attachView(this, this);
+        
         // Find all relevant views that we will need to read user input from
         mNameEditText = (EditText) findViewById(R.id.add_pet_name);
         mBreedEditText = (EditText) findViewById(R.id.add_pet_breed);
         mWeightEditText = (EditText) findViewById(R.id.add_pet_weight);
         mGenderSpinner = (Spinner) findViewById(R.id.addpet_spinner_gender);
-
+        
         mNameEditText.setOnTouchListener(mTouchListener);
         mBreedEditText.setOnTouchListener(mTouchListener);
         mWeightEditText.setOnTouchListener(mTouchListener);
@@ -105,15 +114,54 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
         content_uri = getIntent().getData();
         addPetPresenter.setUpLoader(getSupportLoaderManager(), content_uri);
     }
-
-
-
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("touchlistener", mPetHasChanged);
+        super.onSaveInstanceState(outState);
+    }
+    
+    // This callback is called only when there is a saved instance previously saved using
+// onSaveInstanceState(). We restore some state in onCreate() while we can optionally restore
+// other state here, possibly usable after onStart() has completed.
+// The savedInstanceState Bundle is same as the one used in onCreate().
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        mPetHasChanged = savedInstanceState.getBoolean("touchlistener", false);
+    }
+    
     @Override
     protected void onDestroy() {
         super.onDestroy();
         addPetPresenter.detachView();
+        Log.d(TAG, "on destroy");
     }
-
+    
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "on start");
+    }
+    
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "on stop");
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "on pause");
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "on resume");
+        
+    }
+    
     /**
      * Setup the dropdown spinner that allows the user to select the gender of the pet.
      */
@@ -123,13 +171,13 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
         // the spinner will use the default layout
         ArrayAdapter genderSpinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.array_gender_options, android.R.layout.simple_spinner_item);
-
+        
         // Specify dropdown layout style - simple list view with 1 item per line
         genderSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-
+        
         // Apply the adapter to the spinner
         mGenderSpinner.setAdapter(genderSpinnerAdapter);
-
+        
         // Set the integer mSelected to the constant values
         mGenderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -137,7 +185,7 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
                 String selection = (String) parent.getItemAtPosition(position);
                 mGender = addPetPresenter.getGender(selection);
             }
-
+            
             // Because AdapterView is an abstract class, onNothingSelected must be defined
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -145,7 +193,7 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
             }
         });
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_addpet.xml file.
@@ -153,7 +201,7 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
         getMenuInflater().inflate(R.menu.menu_addpet, menu);
         return true;
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
@@ -173,13 +221,13 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public boolean upButtonPressed(){
+    
+    public boolean upButtonPressed() {
         if (!mPetHasChanged) {
             NavUtils.navigateUpFromSameTask(this);
             return true;
         }
-
+        
         // Otherwise if there are unsaved changes, setup a dialog to warn the user.
         // Create a click listener to handle the user confirming that
         // changes should be discarded.
@@ -191,22 +239,22 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
                         NavUtils.navigateUpFromSameTask(AddPetActivity.this);
                     }
                 };
-
+        
         // Show a dialog that notifies the user they have unsaved changes
         showUnsavedChangesDialog(discardButtonClickListener);
         return true;
     }
-
-
+    
+    
     @Override
     public void setActivityTitle(int id) {
         invalidateOptionsMenu();
         setTitle(id);
     }
-
+    
     @Override
     public void showInputErrorMessage(int viewId, int resId, int lenghtId) {
-        final Snackbar snackbar = Snackbar.make(findViewById(viewId),resId,lenghtId);
+        final Snackbar snackbar = Snackbar.make(findViewById(viewId), resId, lenghtId);
         snackbar.setAction("Dismiss", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -215,30 +263,29 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
         });
         snackbar.show();
     }
-
+    
     @Override
     public void populatePet(String name, String breed, int gender, int weight) {
         mNameEditText.setText(name);
         mBreedEditText.setText(breed);
-        mWeightEditText.setText(weight+"");
+        mWeightEditText.setText(weight + "");
         mGenderSpinner.setSelection(gender);
     }
-
-
-
+    
+    
     @Override
     public void savePet() {
         InputMethodManager inputManager = (InputMethodManager)
                 getSystemService(this.INPUT_METHOD_SERVICE);
-
+        
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
         String name = mNameEditText.getText().toString(), breed = mBreedEditText.getText().toString();
         String weight_string = mWeightEditText.getText().toString();
         addPetPresenter.savePet(name, breed, weight_string, mGender);
     }
-
-
+    
+    
     private void showUnsavedChangesDialog(
             DialogInterface.OnClickListener discardButtonClickListener) {
         // Create an AlertDialog.Builder and set the message, and click listeners
@@ -255,12 +302,12 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
                 }
             }
         });
-
+        
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
+    
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -268,10 +315,10 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
             MenuItem menuItem = menu.findItem(R.id.action_delete);
             menuItem.setVisible(false);
         }
-
+        
         return true;
     }
-
+    
     @Override
     public void onBackPressed() {
         // If the pet hasn't changed, continue with handling back button press
@@ -279,7 +326,7 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
             super.onBackPressed();
             return;
         }
-
+        
         // Otherwise if there are unsaved changes, setup a dialog to warn the user.
         // Create a click listener to handle the user confirming that changes should be discarded.
         DialogInterface.OnClickListener discardButtonClickListener =
@@ -290,11 +337,11 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
                         finish();
                     }
                 };
-
+        
         // Show dialog that there are unsaved changes
         showUnsavedChangesDialog(discardButtonClickListener);
     }
-
+    
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
@@ -315,12 +362,12 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
                 }
             }
         });
-
+        
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
+    
     /**
      * Perform the deletion of the pet in the database.
      */
@@ -328,6 +375,6 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView{
     public void deletePet() {
         addPetPresenter.deletePet(content_uri);
     }
-
-
+    
+    
 }

@@ -51,6 +51,7 @@
             <EditText
                 android:id="@+id/add_pet_breed"
                 android:hint="@string/hint_pet_breed"
+                android:contentDescription=""
                 android:inputType="textCapWords"
                 style="@style/EditorFieldStyle" />
         </LinearLayout>
