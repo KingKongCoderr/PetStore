@@ -17,6 +17,7 @@ package com.example.android.pets.mvp.PetCatalog;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.content.ContentUris;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -48,16 +50,14 @@ import com.example.android.pets.mvp.PetAdd.AddPetActivity;
 
 import javax.inject.Inject;
 
-import static android.view.FrameMetrics.ANIMATION_DURATION;
-
 /**
  * Displays list of pets that were entered and stored in the app.
  */
 public class CatalogActivity extends AppCompatActivity implements CatalogView {
-
+    
     @Inject
     CatalogPresenter catalogPresenter;
-
+    
     //RecyclerView recyclerView;
     ListView listView;
     View emptyView;
@@ -68,12 +68,15 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     //PetCursorRecyclerViewAdapter rv_adapter;
     PetAdapter cursor_adapter;
     LottieAnimationView fabLottie;
-
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-
+    private boolean isLandscape = false;
+    private float pixel = 0f;
+    
+    boolean isFirstLoad = true;
+    
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final RelativeLayout mainLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.activity_catalog, null);
         // set a global layout listener which will be called when the layout pass is completed and the view is drawn
@@ -99,45 +102,83 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
                         editor.putInt("imagey", imageOnScreenLocation[1]);
                         editor.putInt("fabx", fabOnScreenLocation[0]);
                         editor.putInt("faby", fabOnScreenLocation[1]);
+                        editor.putInt("labelx", labelOnScreenLocation[0]);
+                        editor.putInt("labely", labelOnScreenLocation[1]);
                         DisplayMetrics displayMetrics = new DisplayMetrics();
                         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                        int height = displayMetrics.heightPixels;
-                        int width = displayMetrics.widthPixels;
-                        editor.putInt("height",height);
-                        editor.putInt("width",width);
+                        editor.putInt("height", displayMetrics.heightPixels);
+                        editor.putInt("width", displayMetrics.widthPixels);
+                        pixel = 16 * (displayMetrics.densityDpi / 160);
+                        editor.putInt("dpi", displayMetrics.densityDpi);
+                        editor.putFloat("dpi_pixel", pixel);
+                        editor.putBoolean("isFirstLoad", false);
                         editor.commit();
+                        if (listView.getCount() == 0) {
+                            emptyViewAnimation();
+                        }
                     }
                 }
         );
+        
         setContentView(mainLayout);
-        MainApplication.getApplicationComponent().inject(this);
-        catalogPresenter.attachView(this, getApplicationContext());
-        catalogPresenter.setUpLoader(getSupportLoaderManager());
-
-        sharedPreferences = getPreferences(MODE_PRIVATE);
+        MainApplication.getApplicationComponent().
+                
+                inject(this);
+        catalogPresenter.attachView(this, this);
+        catalogPresenter.setUpLoader(
+                
+                getSupportLoaderManager());
+        
+        sharedPreferences =
+                
+                getPreferences(MODE_PRIVATE);
+        
         editor = sharedPreferences.edit();
         // Setup FAB to open AddPetActivity
         //recyclerView = findViewById(R.id.catalog_rv);
-        listView = findViewById(R.id.catalog_lv);
-        emptyView = findViewById(R.id.empty_view);
-        fabLottie = findViewById(R.id.fab_lottie);
+        listView =
+                
+                findViewById(R.id.catalog_lv);
+        
+        emptyView =
+                
+                findViewById(R.id.empty_view);
+        
+        fabLottie =
+                
+                findViewById(R.id.fab_lottie);
         fabLottie.setVisibility(View.INVISIBLE);
-        petHomeImageView = findViewById(R.id.empty_shelter_image);
-        petImageView = findViewById(R.id.pet_iv);
-        label1 = findViewById(R.id.empty_title_text);
-        label2 = findViewById(R.id.empty_subtitle_text);
+        petHomeImageView =
+                
+                findViewById(R.id.empty_shelter_image);
+        
+        petImageView =
+                
+                findViewById(R.id.pet_iv);
+        
+        label1 =
+                
+                findViewById(R.id.empty_title_text);
+        
+        label2 =
+                
+                findViewById(R.id.empty_subtitle_text);
         // layoutManager = new LinearLayoutManager(getBaseContext());
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab = (FloatingActionButton)
+                
+                findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener()
+        
+        {
             @Override
             public void onClick(View view) {
                 if (listView.getCount() == 0) {
                     fabAnimation();
                 } else {
                     fabLottie.setVisibility(View.VISIBLE);
-                    int height = sharedPreferences.getInt("height",0);
-                    int width = sharedPreferences.getInt("width",0);
-                    fabLottie.setX(width/4);
+                    int screen_height = sharedPreferences.getInt("height", 0);
+                    int screen_width = sharedPreferences.getInt("width", 0);
+                    fabLottie.setX(screen_width / 4);
                     fabLottie.setY(0f);
                     /*fabLottie.setX(width/5);
                     fabLottie.setY(height/10);*/
@@ -145,7 +186,7 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
                     animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
                         public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            fabLottie.setProgress((float)valueAnimator.getAnimatedValue());
+                            fabLottie.setProgress((float) valueAnimator.getAnimatedValue());
                         }
                     });
                     animator.start();
@@ -153,7 +194,9 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
                 }
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        
+        {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent addPetIntent = new Intent(CatalogActivity.this, AddPetActivity.class);
@@ -162,18 +205,19 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
                 startActivity(addPetIntent);
             }
         });
-        if (listView.getCount() == 0) {
-            emptyViewAnimation();
+        if (!(sharedPreferences.getBoolean("isFirstLoad", true))) {
+            if (listView.getCount() == 0) {
+                emptyViewAnimation();
+            }
         }
     }
-
+    
     private Animator.AnimatorListener setAnimationListener() {
         Animator.AnimatorListener fabAnimationListener = new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
-
             }
-
+            
             @Override
             public void onAnimationEnd(Animator animator) {
                 petImageView.setVisibility(View.INVISIBLE);
@@ -181,21 +225,18 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
                 Intent intent = new Intent(CatalogActivity.this, AddPetActivity.class);
                 startActivity(intent);
             }
-
+            
             @Override
             public void onAnimationCancel(Animator animator) {
-
             }
-
+            
             @Override
             public void onAnimationRepeat(Animator animator) {
-
             }
         };
         return fabAnimationListener;
-
     }
-
+    
     private void fabAnimation() {
         petImageView.setVisibility(View.VISIBLE);
         int fabx = sharedPreferences.getInt("fabx", 0) + 50, faby = sharedPreferences.getInt("faby", 0) - 100;
@@ -221,16 +262,18 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         petx.start();
         pety.start();
         pety.addListener(setAnimationListener());
-
+        
     }
-
+    
     @Override
     protected void onStart() {
         super.onStart();
         //catalogPresenter.getCatalog();
     }
-
+    
     public void emptyViewAnimation() {
+        
+        isLandscape = catalogPresenter.isLandscape();
         /*
         using object animator which is subclass of value animator
          */
@@ -239,32 +282,57 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         objectAnimator.start();
         objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
         objectAnimator.setRepeatMode(ValueAnimator.REVERSE);*/
-
-        //Value Animator has more features than Object Animator
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0f, -380);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                float value = (float) valueAnimator.getAnimatedValue();
-                // petHomeImageView.setTranslationY(value-500);
-                label1.setTranslationX(value);
-                label2.setTranslationX(-value);
-            }
-        });
-        valueAnimator.setInterpolator(new BounceInterpolator());
-        valueAnimator.setDuration(10000);
-        valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        // valueAnimator.setRepeatMode(ValueAnimator.REVERSE);
-        valueAnimator.start();
+        
+        if (isLandscape == false) {
+            //screen width retrieved at runtime through display metrics
+            int screen_width = sharedPreferences.getInt("width", 100);
+            
+            //Value Animator has more features than Object Animator
+            ValueAnimator horizontalTextAnimation = ValueAnimator.ofFloat(0f, -(screen_width / 4));
+            horizontalTextAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    float value = (float) valueAnimator.getAnimatedValue();
+                    // petHomeImageView.setTranslationY(value-500);
+                    label1.setTranslationX(value);
+                    label2.setTranslationX(-value);
+                }
+            });
+            horizontalTextAnimation.setInterpolator(new BounceInterpolator());
+            horizontalTextAnimation.setDuration(10000);
+            horizontalTextAnimation.setRepeatCount(ValueAnimator.INFINITE);
+            // valueAnimator.setRepeatMode(ValueAnimator.REVERSE);
+            horizontalTextAnimation.start();
+        } else {
+          /*  dpi = sharedPreferences.getInt("dpi", 240);*/
+            float pixel = sharedPreferences.getFloat("dpi_pixel", 0f);
+            ValueAnimator verticalTextAnimation = ValueAnimator.ofFloat(0f, pixel);
+            verticalTextAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    float value = (float) valueAnimator.getAnimatedValue();
+                    // petHomeImageView.setTranslationY(value-500);
+                    label1.setTranslationY(-value);
+                    label2.setTranslationY(value);
+                }
+            });
+            verticalTextAnimation.setInterpolator(new BounceInterpolator());
+            verticalTextAnimation.setDuration(4000);
+            verticalTextAnimation.setRepeatCount(ValueAnimator.INFINITE);
+            // valueAnimator.setRepeatMode(ValueAnimator.REVERSE);
+            verticalTextAnimation.start();
+        }
+        
+        
     }
-
-
+    
+    
     @Override
     protected void onDestroy() {
         super.onDestroy();
         catalogPresenter.detachView();
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
@@ -272,7 +340,7 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         getMenuInflater().inflate(R.menu.menu_catalog, menu);
         return true;
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
@@ -289,7 +357,7 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    
     @Override
     public void showCatalog(Cursor cursor) {
         cursor_adapter = new PetAdapter(this, cursor, 0);
@@ -303,16 +371,16 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         recyclerView.setAdapter(rv_adapter);
         recyclerView.setLayoutManager(layoutManager);*/
     }
-
+    
     @Override
     public void refreshCatalog(Cursor cursor) {
         // rv_adapter.refreshCursor(cursor);
         cursor_adapter.changeCursor(cursor);
     }
-
+    
     @Override
     public void deleteAllPets() {
         catalogPresenter.deleteAllpets(PetsContract.PetEntry.CONTENT_URI);
     }
-
+    
 }
