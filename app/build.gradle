@@ -11,7 +11,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+      //  multiDexEnabled true
     }
+   /* dexOptions {
+        javaMaxHeapSize "4g"
+        preDexLibraries = false
+    }*/
     buildTypes {
         release {
             minifyEnabled false
@@ -28,6 +33,10 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
     provided 'javax.annotation:jsr250-api:1.0'
+
+    //LeakCanary dependencies
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.2'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.2'
 
     //Lotte Animation Library
     compile 'com.airbnb.android:lottie:2.2.0'

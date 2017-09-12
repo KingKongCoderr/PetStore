@@ -71,6 +71,18 @@ public class CatalogActivityTest {
     }
     
     @Test
+    public void AddPetActivity_called_when_fabClicked() {
+        insertDummyData();
+        
+        //find view
+        onView(withId(R.id.fab)).perform(click());
+        
+        
+        //check assertions
+        intended(allOf(hasComponent(hasClassName(AddPetActivity.class.getName()))));
+    }
+    
+    @Test
     public void emptyView_displayed_for_emptyListView() {
         //find view  onData(object_matcher).dataoptions.perform(viewaction).check(viewassertion)
         //onView(withId(R.id.action_delete_all_entries)).perform(click());
@@ -110,18 +122,7 @@ public class CatalogActivityTest {
         //use this assertion when view is not present in the view hierarchy
         //onView(withId(R.id.empty_view)).check(doesNotExist());
     }
-    
-    @Test
-    public void AddPetActivity_called_when_fabClicked() {
-        
-        insertDummyData();
-        
-        //find view
-        onView(withId(R.id.fab)).perform(click());
-        
-        //check assertions
-        intended(allOf(hasComponent(hasClassName(containsString("AddPetActivity")))));
-    }
+ 
     
     public void insertDummyData() {
         
