@@ -18,26 +18,24 @@ package com.example.android.pets.mvp.PetCatalog;
 import android.animation.Animator;
 
 import android.animation.ValueAnimator;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.BounceInterpolator;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,14 +57,14 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     @Inject
     CatalogPresenter catalogPresenter;
     
-    //RecyclerView recyclerView;
-    private ListView listView;
+    RecyclerView recyclerView;
+    //private ListView listView;
     private View emptyView;
     private ImageView petHomeImageView, petImageView;
     private TextView label1, label2;
     private FloatingActionButton fab;
-    //RecyclerView.LayoutManager layoutManager;
-    //PetCursorRecyclerViewAdapter rv_adapter;
+    RecyclerView.LayoutManager layoutManager;
+    PetCursorRecyclerViewAdapter rv_adapter;
     private PetAdapter cursor_adapter;
     private LottieAnimationView fabLottie;
     private SharedPreferences sharedPreferences;
@@ -80,6 +78,7 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        
         super.onCreate(savedInstanceState);
         mainLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.activity_catalog, null);
         // set a global layout listener which will be called when the layout pass is completed and the view is drawn
@@ -111,7 +110,8 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
                 editor.putFloat("dpi_pixel", pixel);
                 editor.putBoolean("isFirstLoad", false);
                 editor.commit();
-                if (listView.getCount() == 0) {
+                
+                if (recyclerView.getAdapter().getItemCount()== 0) {
                     emptyViewAnimation();
                 } else {
                     emptyView.setVisibility(View.GONE);
@@ -127,21 +127,27 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         sharedPreferences = getPreferences(MODE_PRIVATE);
         editor = sharedPreferences.edit();
         // Setup FAB to open AddPetActivity
-        //recyclerView = findViewById(R.id.catalog_rv);
-        listView = findViewById(R.id.catalog_lv);
+        recyclerView = (RecyclerView) findViewById(R.id.catalog_rv);
+        layoutManager = new LinearLayoutManager(getBaseContext());
+        
+        //listView = findViewById(R.id.catalog_lv);
+        
+        rv_adapter = new PetCursorRecyclerViewAdapter(this);
+        recyclerView.setAdapter(rv_adapter);
+        recyclerView.setLayoutManager(layoutManager);
+        
         emptyView = findViewById(R.id.empty_view);
-        fabLottie = findViewById(R.id.fab_lottie);
+        fabLottie = (LottieAnimationView) findViewById(R.id.fab_lottie);
         fabLottie.setVisibility(View.INVISIBLE);
-        petHomeImageView = findViewById(R.id.empty_shelter_image);
-        petImageView = findViewById(R.id.pet_iv);
-        label1 = findViewById(R.id.empty_title_text);
-        label2 = findViewById(R.id.empty_subtitle_text);
-        // layoutManager = new LinearLayoutManager(getBaseContext());
-        fab = findViewById(R.id.fab);
+        petHomeImageView = (ImageView) findViewById(R.id.empty_shelter_image);
+        petImageView = (ImageView) findViewById(R.id.pet_iv);
+        label1 = (TextView) findViewById(R.id.empty_title_text);
+        label2 = (TextView) findViewById(R.id.empty_subtitle_text);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (listView.getCount() == 0) {
+                if (recyclerView.getAdapter().getItemCount() == 0) {
                     fabAnimation();
                 } else {
                     fabLottie.setVisibility(View.VISIBLE);
@@ -149,22 +155,14 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
                     int screen_width = sharedPreferences.getInt("width", 0);
                     fabLottie.setX(screen_width / 4);
                     fabLottie.setY(0f);
-                    /*fabLottie.setX(width/5);
-                    fabLottie.setY(height/10);*/
                     fabAnimator = ValueAnimator.ofFloat(0f, 1f).setDuration(2000);
                     fabAnimator.addUpdateListener(new LottieAnimation(fabLottie));
-                            /*new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            fabLottie.setProgress((float) valueAnimator.getAnimatedValue());
-                        }
-                    });*/
                     fabAnimator.addListener(setAnimationListener());
                     fabAnimator.start();
                 }
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      /*  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent addPetIntent = new Intent(CatalogActivity.this, AddPetActivity.class);
@@ -172,20 +170,9 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
                 addPetIntent.setData(content_uri);
                 startActivity(addPetIntent);
             }
-        });
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-                
-            }
-            
-            @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-                
-            }
-        });
+        });*/
         if (!(sharedPreferences.getBoolean("isFirstLoad", true))) {
-            if (listView.getCount() == 0) {
+            if (recyclerView.getAdapter().getItemCount() == 0) {
                 emptyViewAnimation();
             } else {
                 emptyView.setVisibility(View.GONE);
@@ -421,7 +408,7 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
             horizontalTextAnimation.cancel();
             horizontalTextAnimation.removeAllListeners();
             horizontalTextAnimation.removeAllUpdateListeners();
-        } else if (verticalTextAnimation == null) {
+        } else if (verticalTextAnimation != null) {
             verticalTextAnimation.cancel();
             verticalTextAnimation.removeAllListeners();
             verticalTextAnimation.removeAllUpdateListeners();
@@ -469,28 +456,29 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     
     @Override
     public void showCatalog(Cursor cursor) {
-        cursor_adapter = new PetAdapter(this, cursor, 0);
-        listView.setAdapter(cursor_adapter);
-        listView.setEmptyView(emptyView);
-
-        /* if (recyclerView != null) {
-            recyclerView.setHasFixedSize(true);
+        //cursor_adapter = new PetAdapter(this, cursor, 0);
+        /*listView.setAdapter(cursor_adapter);
+        listView.setEmptyView(emptyView);*/
+        rv_adapter.setCursor(cursor);
+        if (recyclerView.getAdapter().getItemCount()!=0){
+            emptyView.setVisibility(View.GONE);
+        }else {
+            emptyView.setVisibility(View.VISIBLE);
         }
-        rv_adapter = new PetCursorRecyclerViewAdapter(this,cursor);
-        recyclerView.setAdapter(rv_adapter);
-        recyclerView.setLayoutManager(layoutManager);*/
     }
     
     @Override
     public void refreshCatalog(Cursor cursor) {
-        // rv_adapter.refreshCursor(cursor);
-        cursor_adapter.changeCursor(cursor);
+        rv_adapter.setCursor(cursor);
+        //cursor_adapter.changeCursor(cursor);
+        if (recyclerView.getAdapter().getItemCount()==0){
+            emptyView.setVisibility(View.VISIBLE);
+        }
     }
     
     @Override
     public void deleteAllPets() {
         catalogPresenter.deleteAllpets(PetsContract.PetEntry.CONTENT_URI);
     }
-    
     
 }

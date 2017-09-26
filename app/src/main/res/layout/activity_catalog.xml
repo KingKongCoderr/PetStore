@@ -62,18 +62,17 @@
             android:textColor="#A2AAB0"/>
     </RelativeLayout>
 
-   <!-- <android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/catalog_rv">
-    </android.support.v7.widget.RecyclerView>-->
+    </android.support.v7.widget.RecyclerView>
 
-    <ListView
+   <!-- <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/catalog_lv">
-
-    </ListView>
+    </ListView>-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
