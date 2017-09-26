@@ -41,6 +41,7 @@ public class CatalogPresenter extends BasePresenter<CatalogView> implements Load
 
     @Override
     public void detachView() {
+        catalogLoaderMgr.destroyLoader(CATALOG_LOADER_CONTENTPROVIDER);
         super.detachView();
     }
 

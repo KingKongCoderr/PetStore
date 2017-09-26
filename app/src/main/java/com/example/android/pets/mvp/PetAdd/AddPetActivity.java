@@ -236,6 +236,7 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // User clicked "Discard" button, navigate to parent activity.
+                        dialogInterface.dismiss();
                         NavUtils.navigateUpFromSameTask(AddPetActivity.this);
                     }
                 };
@@ -334,6 +335,7 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // User clicked "Discard" button, close the current activity.
+                        dialogInterface.dismiss();
                         finish();
                     }
                 };

@@ -32,11 +32,11 @@ public class PetAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
         TextView name_tv, breed_tv;
-        name_tv = view.findViewById(R.id.name_tv);
-        breed_tv = view.findViewById(R.id.breed_tv);
+        name_tv = (TextView) view.findViewById(R.id.name_tv);
+        breed_tv = (TextView) view.findViewById(R.id.breed_tv);
         int name_index = cursor.getColumnIndexOrThrow(PetsContract.PetEntry.COLUMN_PET_NAME);
         int breed_index = cursor.getColumnIndexOrThrow(PetsContract.PetEntry.COLUMN_PET_BREED);
-        PetCursorRecyclerViewAdapter.ViewHolder vh = new PetCursorRecyclerViewAdapter.ViewHolder(view.getRootView());
+        //PetCursorRecyclerViewAdapter.ViewHolder vh = new PetCursorRecyclerViewAdapter.ViewHolder(view.gettag);
         name_tv.setText(cursor.getString(name_index));
         String breed = cursor.getString(breed_index);
         if(TextUtils.isEmpty(breed)){
@@ -44,4 +44,5 @@ public class PetAdapter extends CursorAdapter {
         }
         breed_tv.setText(breed);
     }
+    
 }
