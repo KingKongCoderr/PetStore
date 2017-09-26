@@ -2,8 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.0"
-
+    buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.example.android.pets"
         minSdkVersion 15
@@ -11,12 +10,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-      //  multiDexEnabled true
+        multiDexEnabled true
     }
-   /* dexOptions {
-        javaMaxHeapSize "4g"
-        preDexLibraries = false
-    }*/
+    /* dexOptions {
+         javaMaxHeapSize "4g"
+         preDexLibraries = false
+     }*/
     buildTypes {
         release {
             minifyEnabled false
@@ -24,12 +23,17 @@ android {
         }
     }
 }
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:support-annotations:25.3.1'
+    }
+}
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.4.0'
-    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.google.dagger:dagger:2.9'
-    compile 'com.android.support:recyclerview-v7:25.0.0'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
     provided 'javax.annotation:jsr250-api:1.0'
@@ -43,7 +47,13 @@ dependencies {
 
     //Android Testing Support library(ATSL) dependencies.
     androidTestCompile 'com.android.support:support-annotations:25.3.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
-
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:3.0.1'){
+        exclude module: 'support-annotations'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'design'
+    }
 }

@@ -3,21 +3,327 @@
 
     <item
         is-multidex="true"
-        jar="D:\Android_projects\pets\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
+        jar="C:\Users\nande\.gradle\caches\modules-2\files-2.1\junit\junit\4.12\2973d150c0dc1fefe998f834810d68f278ea58ec\junit-4.12.jar"
+        jumboMode="false"
         optimize="true"
-        revision="26.0.0"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_72ce2b707d5446d484b5cdbaf4f4fbb5d2f17c47\classes.dex" />
+        revision="25.0.0"
+        sha1="2973d150c0dc1fefe998f834810d68f278ea58ec">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\junit-4.12_a49e7effaa9c9fd5be428a54b224333a4d02408d\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="D:\Android_projects\pets\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
+        jar="C:\Users\nande\.android\build-cache\f671f278336cfdccf336352e1947bdb777abf670\output\jars\classes.jar"
+        jumboMode="false"
         optimize="true"
-        revision="26.0.0"
-        sha1="dd602bf5213cb4faf616635e8de15693e95f0b5a">
-        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_668961edf891b14ac8977dd4f996d253f5a1674c\classes.dex" />
+        revision="25.0.0"
+        sha1="ec224ad624f39212bacaf5903d989fe066166e7a">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_01e82bfeafaca7ea3bac658ba51b450ccd7e0c54\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\2b4e52bdd7cddbc306a4dee063f79653b6b3a310\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="a6295621aab3a37ea2500e9e1a2829175313372c">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\classes_76088247b291b1688535cfd5eed4bf4b860b164b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\2.0.1\516c03b21d50a644d538de0f0369c620989cd8f0\jsr305-2.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="516c03b21d50a644d538de0f0369c620989cd8f0">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\jsr305-2.0.1_bf4eb8af126e84b4293ca5e759db4cbd8a7c827a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\fa7abae27dd62a80d02cf8bf057f62fef176f709\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="b0cc52f82a38613739bfded911ca385b75ff504f">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\classes_c1e13619a3e6407b4dd551e8352fc58669faf56b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\e3f182d60ea9d4c414f2cf79080ac8996c039427\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ef8d6e50774823d5afeeaa702a15f5e2d778c702\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\bc9d012c8af15e2af3bca16106fcbddbcc49a33e\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="b7c3356ac054fb47f7b8ff90c2fb68531308eb00">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\classes_4fd315e684a1497290f19313415235db5862a1e6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\6d24ef0a667ff120d8d4feb074ccd8df2706130e\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8e3e6f9efda97ad28e99668aaa2b0197ef57f852\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\3ebb22ecb8b08656824417b529caa4389280d712\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_1911e59ccda24f6a618b8757fdb69536b7f66363\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.gradle\caches\modules-2\files-2.1\javax.inject\javax.inject\1\6975da39a7040257bd51d21a231b76c915872d38\javax.inject-1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\javax.inject-1_dfce48a8406fe5b9e159e1a696d6d9631b831e6f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\883349ae719e09a71fa7679a8ffca274cca4ee7e\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f57264c1ee5680f73a85b1f105080388336cac13\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.gradle\caches\modules-2\files-2.1\com.squareup.leakcanary\leakcanary-analyzer\1.5.2\de88f627af0272c398d452cf5d97637e6642df13\leakcanary-analyzer-1.5.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="de88f627af0272c398d452cf5d97637e6642df13">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\leakcanary-analyzer-1.5.2_bc8ec76af7a6f72f36a56a434f9fa5775548cae9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\AppData\Local\Android\sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.2\constraint-layout-solver-1.0.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\constraint-layout-solver-1.0.2_23129144dff9fb7a76734ea0e76fb51df9db2c1c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.gradle\caches\modules-2\files-2.1\com.squareup\javawriter\2.1.1\67ff45d9ae02e583d0f9b3432a5ebbe05c30c966\javawriter-2.1.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="67ff45d9ae02e583d0f9b3432a5ebbe05c30c966">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\javawriter-2.1.1_4c3ac12bd8d087cc207268e79f63c946a0f56912\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\823a599f4020283608bbfcc63e0e2870e89363e5\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_fcadfe2c5253332ab8d3fe408aeddcae3ddd9a58\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\b6ec9473fa7c11e8863cc52ddc710ab05e6f20ff\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_b85369a0142a74e5b315005dfa4b332f5ff2fe1a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-library\1.3\4785a3c21320980282f9f33d0d1264a69040538f\hamcrest-library-1.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="4785a3c21320980282f9f33d0d1264a69040538f">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\hamcrest-library-1.3_d7d71bd332380b1b1bda156a4e3511b92c7d2e50\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\c34e0dda20bea5a2bc448f42d086e253e7a5fde5\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d783e87b2329ad0b3959fa59947dfe0401b2beb9">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\classes_07252441b58ce7caa674b53beb41e1ac381e22fb\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Program Files\Android\Android Studio\gradle\m2repository\net\sf\kxml\kxml2\2.3.0\kxml2-2.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ccbc77a5fd907ef863c29f3596c6f54ffa4e9442">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\kxml2-2.3.0_bf9411c82f3f7ced45d11ae31268a69ee59bd6dc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\fae5dab240a7b4e1872c65553f5a2611e5bf7bab\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_46e8f9efa160ebb9b06846b5ced5be3b31a209f7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\2990aa4900b96473858cd0601ae74b4551ebcca0\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_5ad43abbdb35642c65b3e3fc905b7b9c54a76da8\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-integration\1.3\5de0c73fef18917cd85d0ab70bb23818685e4dfd\hamcrest-integration-1.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="5de0c73fef18917cd85d0ab70bb23818685e4dfd">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\hamcrest-integration-1.3_7c0c61847e31447e796573ac291760040def65bb\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\73b7570189f17ffa26bad093aab736f7b962d2ef\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="faff7244e5cd62f6fdf804a40ce31eb1c6751a1d">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_68ed0ebe93e03503f475c6bba1e3a40a50664ec4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\ae1b7fdb6c1029dbd5aabb862e067618cf57d71a\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_2295f75eea040a3f6bb8dac9944e02a677122725\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.1\support-annotations-25.3.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.3.1_8ff471090f3b08584617032273cef1b1f9a203b9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\65ecf65836a304db7ad576fa77955294a35f079b\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d44519e449e2254cbac86e19b45f650c9fc12aba\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\550ffe4e102ccc8ea83ca1c988c8eb716e31757e\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d452d473ad3801554e73c6ee0d8170b024b86bb6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\166fb853d658c66543228189d37dc6b146266cc7\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="f42cd459be08d98d05abb5f5361d057726e8f126">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\classes_2bd965019b25d2fe57599b9107f3728c6b90e110\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\a0cae35f462d3866b393abd94f60b3f7c6e66da5\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="fdffea03a90c6b623dc5b5b10fe067cfd3048715">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\classes_dc623a63415992782ceed7836fee40f566c913bc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.gradle\caches\modules-2\files-2.1\com.squareup.leakcanary\leakcanary-watcher\1.5.2\1adc095bf4c268eefc6813d497294e6c1daf794a\leakcanary-watcher-1.5.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="1adc095bf4c268eefc6813d497294e6c1daf794a">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\leakcanary-watcher-1.5.2_1ba634aed20e00414a23f53a21c0a50ee137fd33\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.gradle\caches\modules-2\files-2.1\com.squareup.haha\haha\2.0.3\640a438d2d415c056ca6a673ac26b183b044e160\haha-2.0.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="640a438d2d415c056ca6a673ac26b183b044e160">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\haha-2.0.3_7472d82923387471b555894399f80f23c9509341\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-core\1.3\42a25dc3219429f0e5d060061f71acb49bf010a0\hamcrest-core-1.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="42a25dc3219429f0e5d060061f71acb49bf010a0">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\hamcrest-core-1.3_d4a52e9f88980cba0c5934c097e03cd8c18aa913\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.gradle\caches\modules-2\files-2.1\com.google.dagger\dagger\2.9\75a739e59d7ede2f7f425f369955bdd1c2ac122b\dagger-2.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="75a739e59d7ede2f7f425f369955bdd1c2ac122b">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\dagger-2.9_4fa5d664670f64cd025ce1bc8d16bdfc563bb3ad\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\2a2e8801cbadf94b1a2ab8a1a25f341a4ab2cbe5\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_475ede34d7f03004593a189cb80ce5ffb369917a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.gradle\caches\modules-2\files-2.1\com.google.android.apps.common.testing.accessibility.framework\accessibility-test-framework\2.0\7837f95bdff9f797003454247fef02b78d49ae75\accessibility-test-framework-2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="7837f95bdff9f797003454247fef02b78d49ae75">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\androidTest\debug\folders\1000\10\accessibility-test-framework-2.0_5f375beee9172cf048d9791ed49cf234d06ddd9c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nande\.android\build-cache\3221df82e2fa1aeff48690fafe4b376ae3e64838\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="D:\Android_projects\pets\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_12558e47b8d60e9fac1f6cf910e3a515d00a60f2\classes.dex" />
     </item>
 
 </items>

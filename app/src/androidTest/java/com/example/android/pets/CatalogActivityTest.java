@@ -2,9 +2,11 @@ package com.example.android.pets;
 
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.ViewAssertion;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -61,12 +63,12 @@ public class CatalogActivityTest {
     }
     
     @Test
-    public void listView_empty_if_deletedAllPets() {
+    public void recylerView_empty_if_deletedAllPets() {
         
         deleteAllEntries();
         
         //check assertion with custom assertion
-        onView(withId(R.id.catalog_lv)).check(new AdapterCountAssertion(0));
+        onView(withId(R.id.catalog_rv)).check(new RecyclerViewCountAssertion(0));
         
     }
     
@@ -83,7 +85,7 @@ public class CatalogActivityTest {
     }
     
     @Test
-    public void emptyView_displayed_for_emptyListView() {
+    public void emptyView_displayed_for_emptyRecyclerView() {
         //find view  onData(object_matcher).dataoptions.perform(viewaction).check(viewassertion)
         //onView(withId(R.id.action_delete_all_entries)).perform(click());
         
@@ -93,7 +95,7 @@ public class CatalogActivityTest {
         deleteAllEntries();
         
         //check assertions
-        onView(withId(R.id.catalog_lv)).check(matches(not(isCompletelyDisplayed())));
+        onView(withId(R.id.catalog_rv)).check(matches(not(isCompletelyDisplayed())));
         onView(withId(R.id.empty_view)).check(matches(isCompletelyDisplayed()));
         
         //use this assertion when view is not present in the view hierarchy
@@ -108,22 +110,6 @@ public class CatalogActivityTest {
         onView(withText(R.string.action_delete_all_entries)).perform(click());
     }
     
-    @Test
-    public void listView_displayed_for_dummyData() {
-        // Open the overflow menu from contextual action mode.
-        //openContextualActionModeOverflowMenu();
-        
-        insertDummyData();
-        
-        //check assertions
-        onView(withId(R.id.catalog_lv)).check(matches((isCompletelyDisplayed())));
-        onView(withId(R.id.empty_view)).check(matches(not(isCompletelyDisplayed())));
-        
-        //use this assertion when view is not present in the view hierarchy
-        //onView(withId(R.id.empty_view)).check(doesNotExist());
-    }
- 
-    
     public void insertDummyData() {
         
         // Open the options menu OR open the overflow menu, depending on whether
@@ -134,12 +120,34 @@ public class CatalogActivityTest {
     }
     
     @Test
+    public void recyclerView_displayed_for_dummyData() {
+        // Open the overflow menu from contextual action mode.
+        //openContextualActionModeOverflowMenu();
+        
+        insertDummyData();
+        
+        //check assertions
+        onView(withId(R.id.catalog_rv)).check(matches((isCompletelyDisplayed())));
+        onView(withId(R.id.empty_view)).check(matches(not(isCompletelyDisplayed())));
+        
+        //use this assertion when view is not present in the view hierarchy
+        //onView(withId(R.id.empty_view)).check(doesNotExist());
+    }
+    
+    
+    @Test
     public void AddPetActivity_called_withURI_when_listItemClicked() {
         
         insertDummyData();
         
+        //find view (works with AdapterView types use different code for recycler View)
+        // onData(anything()).inAdapterView(withId(R.id.catalog_lv)).atPosition(0).perform(click());
+        
         //find view
-        onData(anything()).inAdapterView(withId(R.id.catalog_lv)).atPosition(0).perform(click());
+        // First, scroll to the position that needs to be matched and click on it.
+        onView(withId(R.id.catalog_rv))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,
+                        click()));
         
         //check assertions
         intended(
@@ -160,6 +168,21 @@ public class CatalogActivityTest {
             assertTrue(view instanceof AdapterView);
             assertEquals(count,
                     ((AdapterView) view).getAdapter().getCount());
+        }
+    }
+    
+    static class RecyclerViewCountAssertion implements ViewAssertion {
+        private int count;
+        
+        public RecyclerViewCountAssertion(int count) {
+            this.count = count;
+        }
+        
+        @Override
+        public void check(View view, NoMatchingViewException e) {
+            assertTrue(view instanceof RecyclerView);
+            assertEquals(count,
+                    ((RecyclerView) view).getAdapter().getItemCount());
         }
     }
 }
