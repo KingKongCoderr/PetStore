@@ -16,6 +16,10 @@
         android:id="@+id/breed_tv"
         android:textSize="15sp"
         android:paddingLeft="15sp"/>
-    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/editorColorPrimary"
+        />
 
 </LinearLayout>
