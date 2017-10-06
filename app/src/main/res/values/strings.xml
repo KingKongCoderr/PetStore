@@ -91,4 +91,20 @@
 
     <!-- Label for dropdown menu option if the pet is female [CHAR LIMIT=20] -->
     <string name="gender_female">Female</string>
+
+    <!--color entries & color values-->
+    <string name="color_default">Red</string>
+    <string name="color_green">Green</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_orange">Orange</string>
+    <string name="color_black">Black</string>
+
+    <string name="color_default_value">0</string>
+    <string name="color_green_value">1</string>
+    <string name="color_blue_value">2</string>
+    <string name="color_orange_value">3</string>
+    <string name="color_black_value">4</string>
+    <string name="color_preference_key">color</string>
+    <string name="color_peference_title">Theme Color</string>
+    <string name="settings">Settings</string>
 </resources>

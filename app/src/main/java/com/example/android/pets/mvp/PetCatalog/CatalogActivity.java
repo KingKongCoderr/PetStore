@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 
@@ -48,6 +49,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.android.pets.Data.PetsContract;
 import com.example.android.pets.Injection.MainApplication;
+import com.example.android.pets.PreferenceActivity;
 import com.example.android.pets.R;
 import com.example.android.pets.mvp.PetAdd.AddPetActivity;
 
@@ -81,15 +83,15 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     private ValueAnimator fabAnimator, horizontalTextAnimation, verticalTextAnimation, petx, pety;
     private RelativeLayout mainLayout;
     private ViewTreeObserver.OnGlobalLayoutListener layoutChangeListener;
+    private int themeId;
     
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         
         super.onCreate(savedInstanceState);
         mainLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.activity_catalog, null);
-        
-        getTheme().applyStyle(R.style.OrangeTheme,true);
-     
+        themeId = changeTheme();
+        //getTheme().applyStyle(R.style.OrangeTheme,true)
         // set a global layout listener which will be called when the layout pass is completed and the view is drawn
         layoutChangeListener = new ViewTreeObserver.OnGlobalLayoutListener() {
             public void onGlobalLayout() {
@@ -128,7 +130,6 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
             }
         };
         mainLayout.getViewTreeObserver().addOnGlobalLayoutListener(layoutChangeListener);
-        
         setContentView(mainLayout);
         MainApplication.getApplicationComponent().inject(this);
         catalogPresenter.attachView(this, this);
@@ -155,12 +156,7 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         label1 = (TextView) findViewById(R.id.empty_title_text);
         label2 = (TextView) findViewById(R.id.empty_subtitle_text);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fab
-                    .setBackgroundTintList(ColorStateList
-                            .valueOf(getResources()
-                                    .getColor(R.color.colorAccentOrange,getTheme())));
-        }
+        setFabTheme(themeId);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -197,6 +193,40 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         }
     }
     
+    private void setFabTheme(int themeId) {
+        int[] colorsArray = new int[]{R.color.colorAccent,
+                R.color.colorAccentGreen,R.color.colorAccentBlue,R.color.colorAccentOrange,R.color.colorAccentBlack};
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            fab.setBackgroundTintList(ColorStateList
+                    .valueOf(getResources()
+                            .getColor(colorsArray[themeId],getTheme())));
+        }
+    }
+    
+    private int changeTheme() {
+        int colorId = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(CatalogActivity.this).getString(getString(R.string.color_preference_key),getString(R.string.color_default_value)));
+        switch (colorId) {
+            case 0:
+                getTheme().applyStyle(R.style.AppTheme,true);
+                break;
+            case 1:
+                getTheme().applyStyle(R.style.GreenTheme,true);
+                break;
+            case 2:
+                getTheme().applyStyle(R.style.BlueTheme,true);
+                break;
+            case 3:
+                getTheme().applyStyle(R.style.OrangeTheme,true);
+                break;
+            case 4:
+                getTheme().applyStyle(R.style.BlackTheme,true);
+                break;
+            default:
+                getTheme().applyStyle(R.style.AppTheme,true);
+        }
+        return colorId;
+    }
+    
     private static class LottieAnimation implements ValueAnimator.AnimatorUpdateListener {
         
         private final WeakReference<LottieAnimationView> mfabLottie;
@@ -213,6 +243,11 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
                 view.setProgress((float) valueAnimator.getAnimatedValue());
             }
         }
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
     
     private static class HorizontalTextAnimation implements ValueAnimator.AnimatorUpdateListener {
@@ -297,6 +332,14 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         
         }
     }*/
+    
+    @Override
+    protected void onResume() {
+        //recreate();
+       /* themeId = changeTheme();
+        setFabTheme(themeId);*/
+        super.onResume();
+    }
     
     private Animator.AnimatorListener setAnimationListener() {
         Animator.AnimatorListener fabAnimationListener = new Animator.AnimatorListener() {
@@ -467,9 +510,18 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
             case R.id.action_delete_all_entries:
                 deleteAllPets();
                 return true;
+            case R.id.action_settings:
+                settingsActivity();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
+    
+    private void settingsActivity() {
+        Intent settingsIntent = new Intent(CatalogActivity.this, PreferenceActivity.class);
+        startActivity(settingsIntent);
+    }
+    
     
     @Override
     public void showCatalog(Cursor cursor) {

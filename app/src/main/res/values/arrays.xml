@@ -17,4 +17,18 @@
         <item>@string/gender_male</item>
         <item>@string/gender_female</item>
     </string-array>
+    <string-array name="color_entries">
+        <item>@string/color_default</item>
+        <item>@string/color_orange</item>
+        <item>@string/color_green</item>
+        <item>@string/color_blue</item>
+        <item>@string/color_black</item>
+    </string-array>
+    <string-array name="color_values">
+        <item>@string/color_default_value</item>
+        <item>@string/color_orange_value</item>
+        <item>@string/color_green_value</item>
+        <item>@string/color_blue_value</item>
+        <item>@string/color_black_value</item>
+    </string-array>
 </resources>

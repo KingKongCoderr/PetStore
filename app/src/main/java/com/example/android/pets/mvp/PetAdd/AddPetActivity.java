@@ -21,6 +21,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -102,7 +103,7 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.OrangeTheme);
+        changeTheme();
         setContentView(R.layout.activity_add_pet);
         MainApplication.getApplicationComponent().inject(this);
         Log.d(TAG, "on Create");
@@ -124,6 +125,29 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView {
             content_uri = deepLinkSetUp(content_uri);
         }
         addPetPresenter.setUpLoader(getSupportLoaderManager(), content_uri);
+    }
+    private int changeTheme() {
+        int colorId = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(AddPetActivity.this).getString(getString(R.string.color_preference_key),getString(R.string.color_default_value)));
+        switch (colorId) {
+            case 0:
+                getTheme().applyStyle(R.style.AppTheme,true);
+                break;
+            case 1:
+                getTheme().applyStyle(R.style.GreenTheme,true);
+                break;
+            case 2:
+                getTheme().applyStyle(R.style.BlueTheme,true);
+                break;
+            case 3:
+                getTheme().applyStyle(R.style.OrangeTheme,true);
+                break;
+            case 4:
+                getTheme().applyStyle(R.style.BlackTheme,true);
+                break;
+            default:
+                getTheme().applyStyle(R.style.AppTheme,true);
+        }
+        return colorId;
     }
     
     private Uri deepLinkSetUp(Uri content_uri) {

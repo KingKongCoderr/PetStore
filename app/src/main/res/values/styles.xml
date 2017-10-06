@@ -16,14 +16,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="BlueTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimaryBlue</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkBlue</item>
         <item name="colorAccent">@color/colorAccentBlue</item>
+<!--
         <item name="android:textColor">@color/colorAccentBlue</item>
+-->
 
     </style>
 
@@ -31,14 +32,12 @@
         <item name="colorPrimary">@color/colorPrimaryGreen</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkGreen</item>
         <item name="colorAccent">@color/colorAccentGreen</item>
-        <item name="android:textColor">@color/colorAccentGreen</item>
 
     </style>
     <style name="BlackTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimaryBlack</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkBlack</item>
         <item name="colorAccent">@color/colorAccentBlack</item>
-        <item name="android:textColor">@color/colorAccentBlack</item>
 
     </style>
 
@@ -46,7 +45,6 @@
         <item name="colorPrimary">@color/colorPrimaryOrange</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkOrange</item>
         <item name="colorAccent">@color/colorAccentOrange</item>
-        <item name="android:textColor">@color/colorAccentOrange</item>
     </style>
     <!-- Theme of the editor -->
     <style name="EditorTheme" parent="Theme.AppCompat.Light.DarkActionBar">
