@@ -25,4 +25,18 @@
 
     <!-- Primary dark color for the editor -->
     <color name="editorColorPrimaryDark">#394450</color>
+
+    <color name="colorPrimaryBlue">#87CEFF</color>
+
+    <color name="colorPrimaryDarkBlue">#00BFFF</color>
+    <color name="colorAccentBlue">#7EC0EE</color>
+    <color name="colorPrimaryGreen">#00FF7F</color>
+    <color name="colorPrimaryDarkGreen">#008B45</color>
+    <color name="colorAccentGreen">#00EE76</color>
+    <color name="colorPrimaryBlack">#000000</color>
+    <color name="colorPrimaryDarkBlack">#000000</color>
+    <color name="colorAccentBlack">#000000</color>
+    <color name="colorPrimaryOrange">#FFA500</color>
+    <color name="colorPrimaryDarkOrange">#FF7F00</color>
+    <color name="colorAccentOrange">#FF8000</color>
 </resources>

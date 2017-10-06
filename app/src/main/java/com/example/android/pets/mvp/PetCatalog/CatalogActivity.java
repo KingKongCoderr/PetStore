@@ -21,6 +21,7 @@ import android.animation.ValueAnimator;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -86,6 +87,9 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         
         super.onCreate(savedInstanceState);
         mainLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.activity_catalog, null);
+        
+        getTheme().applyStyle(R.style.OrangeTheme,true);
+     
         // set a global layout listener which will be called when the layout pass is completed and the view is drawn
         layoutChangeListener = new ViewTreeObserver.OnGlobalLayoutListener() {
             public void onGlobalLayout() {
@@ -151,6 +155,12 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         label1 = (TextView) findViewById(R.id.empty_title_text);
         label2 = (TextView) findViewById(R.id.empty_subtitle_text);
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            fab
+                    .setBackgroundTintList(ColorStateList
+                            .valueOf(getResources()
+                                    .getColor(R.color.colorAccentOrange,getTheme())));
+        }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -30,7 +30,8 @@
         <!-- Label -->
         <TextView
             android:text="@string/category_overview"
-            style="@style/CategoryStyle" />
+            style="@style/CategoryStyle"
+            />
 
         <!-- Input fields -->
         <LinearLayout

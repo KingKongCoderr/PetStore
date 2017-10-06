@@ -35,7 +35,7 @@
             android:parentActivityName=".mvp.PetCatalog.CatalogActivity"
             android:taskAffinity=""
             android:noHistory="true"
-            android:theme="@style/EditorTheme">
+            android:theme="@style/AppTheme">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data

@@ -102,6 +102,7 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.OrangeTheme);
         setContentView(R.layout.activity_add_pet);
         MainApplication.getApplicationComponent().inject(this);
         Log.d(TAG, "on Create");
