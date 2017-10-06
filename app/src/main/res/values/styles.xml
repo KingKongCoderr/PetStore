@@ -17,6 +17,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="AppTheme.textChange">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
 
     <style name="BlueTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimaryBlue</item>
@@ -25,20 +28,28 @@
 <!--
         <item name="android:textColor">@color/colorAccentBlue</item>
 -->
-
     </style>
+    <style name="BlueTheme.textBlue">
+        <item name="android:textColor">@color/colorPrimaryDarkBlue</item>
+    </style>
+
 
     <style name="GreenTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimaryGreen</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkGreen</item>
         <item name="colorAccent">@color/colorAccentGreen</item>
-
     </style>
+    <style name="GreenTheme.textGreen">
+        <item name="android:textColor">@color/colorPrimaryDarkGreen</item>
+    </style>
+
     <style name="BlackTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimaryBlack</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkBlack</item>
         <item name="colorAccent">@color/colorAccentBlack</item>
-
+    </style>
+    <style name="BlackTheme.textBlack">
+        <item name="android:textColor">@color/colorPrimaryDarkBlack</item>
     </style>
 
     <style name="OrangeTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -46,6 +57,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDarkOrange</item>
         <item name="colorAccent">@color/colorAccentOrange</item>
     </style>
+    <style name="OrangeTheme.textOrange">
+        <item name="android:textColor">@color/colorPrimaryDarkOrange</item>
+    </style>
+
     <!-- Theme of the editor -->
     <style name="EditorTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/editorColorPrimary</item>

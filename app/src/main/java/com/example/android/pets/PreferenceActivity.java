@@ -7,6 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.android.pets.mvp.PetCatalog.CatalogActivity;
 
 import java.util.prefs.PreferenceChangeListener;
 
@@ -28,31 +31,41 @@ public class PreferenceActivity extends AppCompatActivity {
             getFragmentManager().beginTransaction().add(android.R.id.content, new MyPreferenceFragment()).commit();
         }
     }
+    
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        super.onBackPressed();
+    }
+    
     private int changeTheme() {
         int colorId = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(PreferenceActivity.this).getString(getString(R.string.color_preference_key),getString(R.string.color_default_value)));
+        boolean switchValue = PreferenceManager.getDefaultSharedPreferences(PreferenceActivity.this)
+                .getBoolean(getString(R.string.textColor_preference_key),getResources().getBoolean(R.bool.textColor_switch_default));
         switch (colorId) {
             case 0:
-                getTheme().applyStyle(R.style.AppTheme,true);
+                getTheme().applyStyle(switchValue? R.style.AppTheme_textChange:R.style.AppTheme , true);
                 break;
             case 1:
-                getTheme().applyStyle(R.style.GreenTheme,true);
+                getTheme().applyStyle(switchValue ? R.style.GreenTheme_textGreen:R.style.GreenTheme,true);
                 break;
             case 2:
-                getTheme().applyStyle(R.style.BlueTheme,true);
+                getTheme().applyStyle(switchValue ? R.style.BlueTheme_textBlue:R.style.BlueTheme,true);
                 break;
             case 3:
-                getTheme().applyStyle(R.style.OrangeTheme,true);
+                getTheme().applyStyle(switchValue ? R.style.OrangeTheme_textOrange: R.style.OrangeTheme,true);
                 break;
             case 4:
-                getTheme().applyStyle(R.style.BlackTheme,true);
+                getTheme().applyStyle(switchValue? R.style.BlackTheme_textBlack:R.style.BlackTheme,true);
                 break;
             default:
-                getTheme().applyStyle(R.style.AppTheme,true);
+                getTheme().applyStyle(switchValue? R.style.AppTheme_textChange:R.style.AppTheme,true);
         }
         return colorId;
     }
     
-    public static class MyPreferenceFragment extends PreferenceFragment {
+    public static class MyPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener{
+        
         
         private SharedPreferences.OnSharedPreferenceChangeListener prefListener;
     
@@ -69,20 +82,13 @@ public class PreferenceActivity extends AppCompatActivity {
     
         private void initSummary(Preference p) {
         
-            if (p instanceof EditTextPreference) {
-                EditTextPreference editTextPref = (EditTextPreference) p;
-                p.setSummary(editTextPref.getText());
+            p.setOnPreferenceChangeListener(this);
+            
+            if(p instanceof SwitchPreference){
+                onPreferenceChange(p,PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(p.getKey(), getResources().getBoolean(R.bool.textColor_switch_default)));
+            }else{
+                onPreferenceChange(p,PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(p.getKey(),getString(R.string.color_default_value)));
             }
-        
-            if(p instanceof ListPreference){
-                Object value= ((ListPreference) p).getValue();
-                String stringValue= value.toString();
-                int index= ((ListPreference) p).findIndexOfValue(stringValue);
-                if(index>=0){
-                    p.setSummary(((ListPreference) p).getEntries()[index]);
-                }
-            }
-            // More logic for ListPreference, etc...
         }
         
         @Override
@@ -92,38 +98,6 @@ public class PreferenceActivity extends AppCompatActivity {
             for(int i=0;i<getPreferenceScreen().getPreferenceCount();i++){
                 pickPreferenceObject(getPreferenceScreen().getPreference(i));
             }
-            prefListener= new SharedPreferences.OnSharedPreferenceChangeListener(){
-                @Override
-                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                   
-                    if (key.equals(R.string.color_preference_key)){
-                        String stringValue= sharedPreferences.getString(key, String.valueOf(R.string.color_default_value));
-                        Preference p=findPreference(key);
-                        int index= ((ListPreference) p).findIndexOfValue(stringValue);
-                        if(index>=0){
-                            p.setSummary(((ListPreference) p).getEntries()[index]);
-                        }
-                    }
-            
-                    /*if(key.equals("location")){
-                        String val=sharedPreferences.getString(key, String.valueOf(R.string.pref_location_default));
-                        Preference location_pref= findPreference(key);
-                        location_pref.setSummary(sharedPreferences.getString(key, String.valueOf(R.string.pref_location_default)));
-                        Log.d("inside","inside the listener with summary value:"+val);
-                    }
-                    if(key.equals("units")){
-                        String stringValue= sharedPreferences.getString(key, String.valueOf(R.string.pref_units_metric));
-                        Preference p=findPreference(key);
-                        int index= ((ListPreference) p).findIndexOfValue(stringValue);
-                        if(index>=0){
-                            p.setSummary(((ListPreference) p).getEntries()[index]);
-                        }
-                    }*/
-            
-            
-            
-                }
-            };
         }
         
         @Override
@@ -134,13 +108,30 @@ public class PreferenceActivity extends AppCompatActivity {
         @Override
         public void onResume() {
             super.onResume();
-            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(prefListener);
+          //  getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(prefListener);
         }
         
         @Override
         public void onPause() {
             super.onPause();
-            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(prefListener);
+            //getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(prefListener);
+        }
+        
+    
+    
+        @Override
+        public boolean onPreferenceChange(Preference p, Object newValue) {
+            String stringValue = newValue.toString();
+            if(p instanceof ListPreference){
+                ListPreference listPreference = (ListPreference)p;
+                int index= listPreference.findIndexOfValue(stringValue);
+                if(index>=0){
+                    p.setSummary(listPreference.getEntries()[index]);
+                }
+            }else {
+                p.setSummary(stringValue);
+            }
+            return true;
         }
     }
 }

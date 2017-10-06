@@ -5,7 +5,12 @@
         android:entryValues="@array/color_values"
         android:key="@string/color_preference_key"
         android:defaultValue="@string/color_default_value"
-        android:title="@string/color_peference_title"
+        android:title="@string/color_preference_title"
+        />
+    <SwitchPreference
+        android:key="@string/textColor_preference_key"
+        android:title="@string/textColor_preference_title"
+        android:defaultValue="@bool/textColor_switch_default"
         />
 
 </PreferenceScreen>

@@ -65,6 +65,8 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     @Inject
     CatalogPresenter catalogPresenter;
     
+    private static final int SETTINGS_ACTIVITY_REQUEST_CODE = 100;
+    
     private RecyclerView recyclerView;
    // private ListView listView;
     private View emptyView;
@@ -85,6 +87,8 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     private ViewTreeObserver.OnGlobalLayoutListener layoutChangeListener;
     private int themeId;
     
+    
+   
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         
@@ -205,24 +209,26 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     
     private int changeTheme() {
         int colorId = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(CatalogActivity.this).getString(getString(R.string.color_preference_key),getString(R.string.color_default_value)));
+        boolean switchValue = PreferenceManager.getDefaultSharedPreferences(CatalogActivity.this)
+                .getBoolean(getString(R.string.textColor_preference_key),getResources().getBoolean(R.bool.textColor_switch_default));
         switch (colorId) {
             case 0:
-                getTheme().applyStyle(R.style.AppTheme,true);
+                getTheme().applyStyle(switchValue? R.style.AppTheme_textChange:R.style.AppTheme , true);
                 break;
             case 1:
-                getTheme().applyStyle(R.style.GreenTheme,true);
+                getTheme().applyStyle(switchValue ? R.style.GreenTheme_textGreen:R.style.GreenTheme,true);
                 break;
             case 2:
-                getTheme().applyStyle(R.style.BlueTheme,true);
+                getTheme().applyStyle(switchValue ? R.style.BlueTheme_textBlue:R.style.BlueTheme,true);
                 break;
             case 3:
-                getTheme().applyStyle(R.style.OrangeTheme,true);
+                getTheme().applyStyle(switchValue ? R.style.OrangeTheme_textOrange: R.style.OrangeTheme,true);
                 break;
             case 4:
-                getTheme().applyStyle(R.style.BlackTheme,true);
+                getTheme().applyStyle(switchValue? R.style.BlackTheme_textBlack:R.style.BlackTheme,true);
                 break;
             default:
-                getTheme().applyStyle(R.style.AppTheme,true);
+                getTheme().applyStyle(switchValue? R.style.AppTheme_textChange:R.style.AppTheme,true);
         }
         return colorId;
     }
@@ -248,6 +254,11 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        
+        if(requestCode == SETTINGS_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+            recreate();
+        }
+        
     }
     
     private static class HorizontalTextAnimation implements ValueAnimator.AnimatorUpdateListener {
@@ -517,9 +528,10 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         return super.onOptionsItemSelected(item);
     }
     
+    
     private void settingsActivity() {
         Intent settingsIntent = new Intent(CatalogActivity.this, PreferenceActivity.class);
-        startActivity(settingsIntent);
+        startActivityForResult(settingsIntent, SETTINGS_ACTIVITY_REQUEST_CODE);
     }
     
     

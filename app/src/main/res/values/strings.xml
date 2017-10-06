@@ -105,6 +105,9 @@
     <string name="color_orange_value">3</string>
     <string name="color_black_value">4</string>
     <string name="color_preference_key">color</string>
-    <string name="color_peference_title">Theme Color</string>
+    <string name="color_preference_title">Theme Color</string>
     <string name="settings">Settings</string>
+    <string name="textColor_preference_key">textColor</string>
+    <string name="textColor_preference_title">Match text with theme color</string>
+
 </resources>

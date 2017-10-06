@@ -128,24 +128,26 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView {
     }
     private int changeTheme() {
         int colorId = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(AddPetActivity.this).getString(getString(R.string.color_preference_key),getString(R.string.color_default_value)));
+        boolean switchValue = PreferenceManager.getDefaultSharedPreferences(AddPetActivity.this)
+                .getBoolean(getString(R.string.textColor_preference_key),getResources().getBoolean(R.bool.textColor_switch_default));
         switch (colorId) {
             case 0:
-                getTheme().applyStyle(R.style.AppTheme,true);
+                getTheme().applyStyle(switchValue? R.style.AppTheme_textChange:R.style.AppTheme , true);
                 break;
             case 1:
-                getTheme().applyStyle(R.style.GreenTheme,true);
+                getTheme().applyStyle(switchValue ? R.style.GreenTheme_textGreen:R.style.GreenTheme,true);
                 break;
             case 2:
-                getTheme().applyStyle(R.style.BlueTheme,true);
+                getTheme().applyStyle(switchValue ? R.style.BlueTheme_textBlue:R.style.BlueTheme,true);
                 break;
             case 3:
-                getTheme().applyStyle(R.style.OrangeTheme,true);
+                getTheme().applyStyle(switchValue ? R.style.OrangeTheme_textOrange: R.style.OrangeTheme,true);
                 break;
             case 4:
-                getTheme().applyStyle(R.style.BlackTheme,true);
+                getTheme().applyStyle(switchValue? R.style.BlackTheme_textBlack:R.style.BlackTheme,true);
                 break;
             default:
-                getTheme().applyStyle(R.style.AppTheme,true);
+                getTheme().applyStyle(switchValue? R.style.AppTheme_textChange:R.style.AppTheme,true);
         }
         return colorId;
     }
