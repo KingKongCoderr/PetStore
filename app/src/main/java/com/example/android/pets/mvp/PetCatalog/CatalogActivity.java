@@ -18,11 +18,15 @@ package com.example.android.pets.mvp.PetCatalog;
 import android.animation.Animator;
 
 import android.animation.ValueAnimator;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.ContentObserver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 
@@ -36,6 +40,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.BounceInterpolator;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -57,15 +62,15 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     @Inject
     CatalogPresenter catalogPresenter;
     
-    RecyclerView recyclerView;
-    //private ListView listView;
+    private RecyclerView recyclerView;
+   // private ListView listView;
     private View emptyView;
     private ImageView petHomeImageView, petImageView;
     private TextView label1, label2;
     private FloatingActionButton fab;
     RecyclerView.LayoutManager layoutManager;
     PetCursorRecyclerViewAdapter rv_adapter;
-    private PetAdapter cursor_adapter;
+   // private PetAdapter cursor_adapter;
     private LottieAnimationView fabLottie;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -127,11 +132,13 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
         sharedPreferences = getPreferences(MODE_PRIVATE);
         editor = sharedPreferences.edit();
         // Setup FAB to open AddPetActivity
-        recyclerView = (RecyclerView) findViewById(R.id.catalog_rv);
         layoutManager = new LinearLayoutManager(getBaseContext());
         
-        //listView = findViewById(R.id.catalog_lv);
-        
+     /*   listView = (ListView) findViewById(R.id.catalog_lv);
+        cursor_adapter = new PetAdapter(this, null, 0);
+        listView.setAdapter(cursor_adapter);*/
+    
+        recyclerView = (RecyclerView) findViewById(R.id.catalog_rv);
         rv_adapter = new PetCursorRecyclerViewAdapter(this);
         recyclerView.setAdapter(rv_adapter);
         recyclerView.setLayoutManager(layoutManager);
@@ -162,7 +169,7 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
                 }
             }
         });
-      /*  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+   /*     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent addPetIntent = new Intent(CatalogActivity.this, AddPetActivity.class);
@@ -456,10 +463,10 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     
     @Override
     public void showCatalog(Cursor cursor) {
-        //cursor_adapter = new PetAdapter(this, cursor, 0);
-        /*listView.setAdapter(cursor_adapter);
-        listView.setEmptyView(emptyView);*/
-        rv_adapter.setCursor(cursor);
+        //cursor.setNotificationUri(getContentResolver(), PetsContract.PetEntry.CONTENT_URI);
+        /*listView.setEmptyView(emptyView);
+        cursor_adapter.swapCursor(cursor);*/
+       rv_adapter.setCursor(cursor);
         if (recyclerView.getAdapter().getItemCount()!=0){
             emptyView.setVisibility(View.GONE);
         }else {
@@ -479,6 +486,23 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     @Override
     public void deleteAllPets() {
         catalogPresenter.deleteAllpets(PetsContract.PetEntry.CONTENT_URI);
+    }
+    
+    public static class PetObserver extends ContentObserver{
+    
+        /**
+         * Creates a content observer.
+         *
+         * @param handler The handler to run {@link #onChange} on, or null if none.
+         */
+        public PetObserver(Handler handler) {
+            super(handler);
+        }
+    
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            
+        }
     }
     
 }

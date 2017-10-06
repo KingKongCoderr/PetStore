@@ -144,7 +144,11 @@ public class AddPetPresenter extends BasePresenter<AddPetView> implements Loader
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return loader_contentProvider();
+        switch (id) {
+            case ADDPET_LOADER_CONTENTPROVIDER:
+                return loader_contentProvider();
+        }
+        return null;
     }
 
     @Override
@@ -152,7 +156,6 @@ public class AddPetPresenter extends BasePresenter<AddPetView> implements Loader
         if (data == null || data.getCount() < 1) {
             return;
         }
-
         // Proceed with moving to the first row of the cursor and reading data from it
         // (This should be the only row in the cursor)
         if (data.moveToFirst()) {
@@ -170,8 +173,6 @@ public class AddPetPresenter extends BasePresenter<AddPetView> implements Loader
             getMvpView().populatePet(name, breed, gender, weight);
 
         }
-
-
     }
 
     @Override

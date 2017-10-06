@@ -42,6 +42,9 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.2'
 
+   /* //leak canary apk version
+    compile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.2'*/
+
     //Lotte Animation Library
     compile 'com.airbnb.android:lottie:2.2.0'
 

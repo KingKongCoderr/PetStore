@@ -16,6 +16,7 @@
 package com.example.android.pets.mvp.PetAdd;
 
 
+import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,8 +35,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.android.pets.Data.PetsContract;
 import com.example.android.pets.Injection.MainApplication;
 import com.example.android.pets.R;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -112,7 +116,20 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView {
         mGenderSpinner.setOnTouchListener(mTouchListener);
         setupSpinner();
         content_uri = getIntent().getData();
+        if(content_uri!=null) {
+            content_uri = deepLinkSetUp(content_uri);
+        }
         addPetPresenter.setUpLoader(getSupportLoaderManager(), content_uri);
+    }
+    
+    private Uri deepLinkSetUp(Uri content_uri) {
+        if (content_uri.getHost().equals("www.nandeesh.com")){
+            List<String> pathSegments =  content_uri.getPathSegments();
+            Uri uri = ContentUris.withAppendedId(PetsContract.PetEntry.CONTENT_URI, Long.parseLong(pathSegments.get(1)));
+            return uri;
+        }
+        return content_uri;
+        
     }
     
     @Override

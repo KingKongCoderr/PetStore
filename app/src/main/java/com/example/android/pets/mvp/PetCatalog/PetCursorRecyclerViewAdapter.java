@@ -34,7 +34,7 @@ public class PetCursorRecyclerViewAdapter extends RecyclerView.Adapter<PetCursor
     
     public void setCursor(Cursor cursor) {
         this.cursor = cursor;
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
     
     @Override
@@ -61,11 +61,9 @@ public class PetCursorRecyclerViewAdapter extends RecyclerView.Adapter<PetCursor
         }
     }
     
-  
-    
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView name_tv, breed_tv;
-        
+        private Cursor cursor;
         public ViewHolder(View itemView) {
             super(itemView);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
@@ -83,12 +81,14 @@ public class PetCursorRecyclerViewAdapter extends RecyclerView.Adapter<PetCursor
                 breed = "Unknown Breed";
             }
             breed_tv.setText(breed);
+            this.cursor =  cursor;
         }
         @Override
         public void onClick(View v) {
             Intent addPetIntent = new Intent(name_tv.getContext() , AddPetActivity.class);
-            int position = getLayoutPosition(), position2 = getAdapterPosition();
-            Uri content_uri = ContentUris.withAppendedId(PetsContract.PetEntry.CONTENT_URI, getLayoutPosition()+1);
+            cursor.moveToPosition(getAdapterPosition());
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(PetsContract.PetEntry._ID));
+            Uri content_uri = ContentUris.withAppendedId(PetsContract.PetEntry.CONTENT_URI, id);
             addPetIntent.setData(content_uri);
             name_tv.getContext().startActivity(addPetIntent);
         }

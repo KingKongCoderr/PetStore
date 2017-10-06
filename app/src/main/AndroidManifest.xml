@@ -34,12 +34,22 @@
             android:name=".mvp.PetAdd.AddPetActivity"
             android:parentActivityName=".mvp.PetCatalog.CatalogActivity"
             android:taskAffinity=""
+            android:noHistory="true"
             android:theme="@style/EditorTheme">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".mvp.PetCatalog.CatalogActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"
+                      android:host="www.nandeesh.com"
+                      android:pathPrefix="/pets"
+                    />
+            </intent-filter>
         </activity>
         <activity android:name=".mvp.PetEdit.EditPetActivity"
             android:parentActivityName=".mvp.PetCatalog.CatalogActivity"
