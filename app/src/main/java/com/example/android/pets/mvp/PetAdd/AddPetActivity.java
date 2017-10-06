@@ -18,10 +18,12 @@ package com.example.android.pets.mvp.PetAdd;
 
 import android.content.ContentUris;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -38,6 +40,7 @@ import android.widget.Spinner;
 import com.example.android.pets.Data.PetsContract;
 import com.example.android.pets.Injection.MainApplication;
 import com.example.android.pets.R;
+import com.example.android.pets.mvp.PetCatalog.CatalogActivity;
 
 import java.util.List;
 
@@ -234,14 +237,21 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView {
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
                 // Navigate back to parent activity (CatalogActivity)
+               /* if(isTaskRoot()){
+                    Intent homeIntent = new Intent(AddPetActivity.this, CatalogActivity.class);
+                    startActivity(homeIntent);
+                    finishAndRemoveTask();
+                    return true;
+                }else{*/
                 return upButtonPressed();
         }
         return super.onOptionsItemSelected(item);
     }
     
     public boolean upButtonPressed() {
+        final Intent upIntent = NavUtils.getParentActivityIntent(this);
         if (!mPetHasChanged) {
-            NavUtils.navigateUpFromSameTask(this);
+            navigateToHome(AddPetActivity.this, upIntent);
             return true;
         }
         
@@ -254,13 +264,32 @@ public class AddPetActivity extends AppCompatActivity implements AddPetView {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // User clicked "Discard" button, navigate to parent activity.
                         dialogInterface.dismiss();
-                        NavUtils.navigateUpFromSameTask(AddPetActivity.this);
+                        navigateToHome(AddPetActivity.this, upIntent);
+                       // NavUtils.navigateUpTo(AddPetActivity.this , upIntent);
                     }
+    
+                    
                 };
         
         // Show a dialog that notifies the user they have unsaved changes
         showUnsavedChangesDialog(discardButtonClickListener);
         return true;
+    }
+    
+    private void navigateToHome(AddPetActivity addPetActivity, Intent upIntent) {
+        if (NavUtils.shouldUpRecreateTask(addPetActivity, upIntent) || isTaskRoot()) {
+            // This activity is NOT part of this app's task, so create a new task
+            // when navigating up, with a synthesized back stack.
+            TaskStackBuilder.create(this)
+                    // Add all of this activity's parents to the back stack
+                    .addNextIntentWithParentStack(upIntent)
+                    // Navigate up to the closest parent
+                    .startActivities();
+        } else {
+            // This activity is part of this app's task, so simply
+            // navigate up to the logical parent activity.
+            NavUtils.navigateUpTo(addPetActivity, upIntent);
+        }
     }
     
     
