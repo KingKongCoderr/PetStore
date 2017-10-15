@@ -11,6 +11,7 @@
         android:key="@string/textColor_preference_key"
         android:title="@string/textColor_preference_title"
         android:defaultValue="@bool/textColor_switch_default"
+        android:id="@+id/switch_text_color"
         />
 
 </PreferenceScreen>

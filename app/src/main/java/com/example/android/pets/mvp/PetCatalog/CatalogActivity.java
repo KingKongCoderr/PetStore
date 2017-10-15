@@ -208,7 +208,9 @@ public class CatalogActivity extends AppCompatActivity implements CatalogView {
     }
     
     private int changeTheme() {
-        int colorId = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(CatalogActivity.this).getString(getString(R.string.color_preference_key),getString(R.string.color_default_value)));
+        int colorId = Integer
+                .parseInt(PreferenceManager.getDefaultSharedPreferences(CatalogActivity.this)
+                        .getString(getString(R.string.color_preference_key),getString(R.string.color_default_value)));
         boolean switchValue = PreferenceManager.getDefaultSharedPreferences(CatalogActivity.this)
                 .getBoolean(getString(R.string.textColor_preference_key),getResources().getBoolean(R.bool.textColor_switch_default));
         switch (colorId) {
